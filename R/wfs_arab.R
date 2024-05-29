@@ -38,6 +38,8 @@
 #'
 #' @seealso [CatastRo::catr_wfs_get_buildings_bbox()]
 #' @seealso [CatastRoNav::catrnav_wfs_get_buildings_bbox()]
+#' @noRd
+
 catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
                                                 count = NULL) {
   # Switch to stored queries
@@ -99,6 +101,7 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @seealso [CatastRo::catr_wfs_get_parcels_bbox()]
 #' @seealso [CatastRoNav::catrnav_wfs_get_parcels_bbox()]
+#' @noRd
 
 catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
                                                 count = NULL) {
@@ -118,7 +121,7 @@ catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
                        count = count,
                        # Stored query
                        bbox = bbox_res$bbox,
-                       SRSNAME = bbox_res$incrs
+                       SRS = bbox_res$incrs
   )
 
   out <- wfs_results(res, verbose)
@@ -129,4 +132,3 @@ catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
   }
   return(out)
 }
-

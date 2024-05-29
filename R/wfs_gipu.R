@@ -16,8 +16,8 @@
 #' @examples
 #' \donttest{
 #'
-#' x <- c(-1.979990, 43.312830, -1.977990, 43.314053)
-#' ad <- catreus_gipu_wfs_get_address_bbox(x, srs=4326,  count=10)
+#' x <- c(43.026899, -2.433164, 43.308497, -2.063099)
+#' ad <- catreus_gipu_wfs_get_address_bbox(x, srs=25830,  count=10)
 #'
 #' library(ggplot2)
 #'
@@ -27,7 +27,7 @@
 #'
 #' @seealso [CatastRo::catr_wfs_get_address_bbox()]
 #' @seealso [CatastRoNav::catrnav_wfs_get_address_bbox()]
-
+#' @noRd
 
 catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
                                                count = NULL) {
@@ -35,7 +35,6 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
   stored_query <- "AD:Address"
 
   bbox_res <- wfs_bbox(x, srs)
-
   res <- wfs_api_query(
     host = "https://b5m.gipuzkoa.eus/inspire/",
     entry = "wfs/gipuzkoa_wfs_ad?",
@@ -58,7 +57,6 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
   }
   return(out)
 }
-
 
 #' Download buildings of Gipuzkoa in spatial format
 #'
@@ -87,8 +85,8 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @examples
 #' \donttest{
-#' x <- c(-1.979990, 43.312830, -1.977990, 43.314053)
-#' bu <- catreus_gipu_wfs_get_parcels_bbox(x, srs=4326,  count=10)
+#' x <- c(42.994337, -2.554863, 43.344138, -1.779831)
+#' bu <- catreus_gipu_wfs_get_parcels_bbox(x, srs=25830,  count=10)
 #'
 #' library(ggplot2)
 #'
@@ -98,7 +96,7 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @seealso [CatastRo::catr_wfs_get_buildings_bbox()]
 #' @seealso [CatastRoNav::catrnav_wfs_get_buildings_bbox()]
-
+#' @noRd
 
 catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
                                                 count = NULL) {
@@ -106,19 +104,18 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
   stored_query <- "bu-ext2d:Building"
 
   bbox_res <- wfs_bbox(x, srs)
-
   res <- wfs_api_query(host= "https://b5m.gipuzkoa.eus/inspire/",
-                       entry = "wfs/gipuzkoa_wfs_bu?",
-                       verbose = verbose,
-                       # WFS service
-                       version = "2.0.0",
-                       service = "WFS",
-                       request = "getfeature",
-                       typenames = stored_query,
-                       count = count,
-                       # Stored query
-                       bbox = bbox_res$bbox,
-                       SRS = bbox_res$incrs
+     entry = "wfs/gipuzkoa_wfs_bu?",
+     verbose = verbose,
+     # WFS service
+     version = "2.0.0",
+     service = "WFS",
+     request = "getfeature",
+     typenames = stored_query,
+     count = count,
+     # Stored query
+     bbox = bbox_res$bbox,
+     SRS = bbox_res$incrs
   )
 
   out <- wfs_results(res, verbose)
@@ -129,7 +126,6 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
   }
   return(out)
 }
-
 
 #' Download cadastral parcels of Gipuzkoa in spatial format
 #'
@@ -150,8 +146,8 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @examples
 #' \donttest{
-#' x <- c(-1.979990, 43.312830, -1.977990, 43.314053)
-#' cp <- catreus_gipu_wfs_get_parcels_bbox(x, srs=4326,  count=10)
+#' x <- c(43.312869, -1.929140, 43.312839, -1.929380)
+#' cp <- catreus_gipu_wfs_get_parcels_bbox(x, srs=25830,  count=10)
 #'
 #' library(ggplot2)
 #'
@@ -161,6 +157,7 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @seealso [CatastRo::catr_wfs_get_parcels_bbox()]
 #' @seealso [CatastRoNav::catrnav_wfs_get_parcels_bbox()]
+#' @noRd
 
 catreus_gipu_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
                                               count = NULL) {
