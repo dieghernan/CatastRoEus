@@ -87,7 +87,6 @@ catreus_bizk_atom_get_addresses_db_all <- function(cache = TRUE,
 #'   )
 #' }
 
-
 catreus_bizk_atom_get_addresses <- function(munic,
                                             cache = TRUE,
                                             update_cache = FALSE,
