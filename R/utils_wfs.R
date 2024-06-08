@@ -33,14 +33,12 @@ wfs_get_url <- function(host,entry,params){
 wfs_check <- function(path){
   #Check if it contains gml
   lines <- suppressWarnings(readLines(path,n=20))
-
   if (any(grepl("<gml", lines))){
     return(TRUE)
   } else {
     return(FALSE)
   }
 }
-
 
 #' Handle WFS queries
 #'

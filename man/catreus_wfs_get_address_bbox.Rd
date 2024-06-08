@@ -4,7 +4,7 @@
 \alias{catreus_wfs_get_address_bbox}
 \title{Retrieve Address Data in Pais Vasco Based on Bounding Box Coordinates}
 \usage{
-catreus_wfs_get_address_bbox(x, srs, verbose = FALSE, count = NULL)
+catreus_wfs_get_address_bbox(x, srs = NULL, verbose = FALSE, count = NULL)
 }
 \arguments{
 \item{x}{Bounding box coordinates or a spatial object, which could be:
@@ -61,7 +61,7 @@ ggplot(addresses_gipuzkoa) +
 coords_bizkaia <- c(43.312, -2.994, 43.313, -2.993)
 
 # Fetch address data using the bounding box
-addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 4326)
+addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 25830)
 
 library(ggplot2)
 # Plot the buildings data
