@@ -22,9 +22,6 @@
 #' [GeoAraba](https://geo.araba.eus/es/servicios-web)
 #'
 #'
-#'
-#' @export
-#'
 #' @examples
 #' \donttest{
 #' x <- c(539226.596, 4744012.338, 539236.286, 4744133.782)
@@ -85,8 +82,6 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @source
 #' [Gipuzkoa Spatial Data Infrastructure](https://b5m.gipuzkoa.eus/web5000/en/inspire-services)
 #'
-#'
-#' @export
 #'
 #' @examples
 #' \donttest{

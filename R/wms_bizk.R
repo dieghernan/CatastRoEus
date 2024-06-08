@@ -1,4 +1,7 @@
 #' WMS INSPIRE: Download map images from the Bizkaia region
+#' 
+#' @importFrom utils modifyList unzip
+#' @importFrom sf st_polygon st_sfc st_sf st_crs<-
 #'
 #' @description
 #' Retrieve geotagged images from the Bizkaia Cadastre. This function configures a WMS service provider
@@ -108,7 +111,7 @@ catreus_bizk_wms_get_layer <- function(x,
       xmin, ymin), # close polygon (repeat the first point)
     ncol = 2, byrow = TRUE
   )
-  #bbox_res <- get_sf_from_bbox(x, srs)
+  bbox_res <- get_sf_from_bbox(x, srs)
   polygon <- st_polygon(list(coords))
   sfc <- st_sfc(polygon)
   sf_object <- st_sf(geometry = sfc)

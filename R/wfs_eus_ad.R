@@ -1,4 +1,6 @@
 #' Retrieve Address Data in Pais Vasco Based on Bounding Box Coordinates
+#' 
+#' @importFrom sf st_as_sf st_transform st_coordinates
 #'
 #' @description
 #' Fetches address data within a specified bounding box. The function determines
@@ -23,7 +25,7 @@
 #'   - A warning message if the bounding box spans multiple provinces.
 #'   - An error message if the coordinates are not within Pais Vasco.
 #'
-#' @seealso \link[sf::st_bbox]{sf::st_bbox()}, which is used to manage spatial bounding boxes.
+#' @seealso \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.
 #'
 #' @details
 #' This function uses reverse geocoding to determine the province within the Basque Country
@@ -39,7 +41,7 @@
 #' # Fetch address data using the bounding box
 #' addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830, count = 10)
 #' 
-#' #' library(ggplot2)
+#' library(ggplot2)
 #' # Plot the buildings data
 #' ggplot(addresses_gipuzkoa) +
 #'   geom_sf() + ggtitle("Addresses Data for Gipuzkoa")

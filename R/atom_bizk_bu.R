@@ -56,6 +56,8 @@ catreus_bizk_atom_get_buildings_db_all <- function(cache = TRUE,
 
 #' ATOM INSPIRE: Download all the buildings of a municipality in Bizkaia
 #'
+#' @importFrom utils modifyList unzip
+#'
 #' @description
 #' Get the spatial data of all the buildings belonging to a single
 #' municipality using the INSPIRE ATOM service.
@@ -69,7 +71,7 @@ catreus_bizk_atom_get_buildings_db_all <- function(cache = TRUE,
 #' @export
 #' @return A [`sf`][sf::st_sf] object.
 #'
-#' @inheritParams catreus_bizk_atom_get_buildingss_db_all
+#' @inheritParams catreus_bizk_atom_get_buildings_db_all
 #' @param munic Municipality to extract, It can be a part of a string or the
 #'   buildings code. See [catreus_bizk_atom_get_buildings_db_all].
 #' @examples

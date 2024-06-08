@@ -1,4 +1,6 @@
 #' Retrieve Parcel Data in Pais Vasco Based on Bounding Box Coordinates
+#' 
+#' @importFrom sf st_as_sf st_transform st_coordinates
 #'
 #' @description
 #' Fetches parcel data within a specified bounding box. The function determines
@@ -23,7 +25,7 @@
 #'   - A warning message if the bounding box spans multiple provinces.
 #'   - An error message if the coordinates are not within Pais Vasco.
 #'
-#' @seealso \link[sf::st_bbox]{sf::st_bbox()}, which is used to manage spatial bounding boxes.
+#' @seealso \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.
 #'
 #' @details
 #' This function uses reverse geocoding to determine the province within the Basque Country
@@ -105,8 +107,8 @@ catreus_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
     print("-------------------------------")
     catreus_gipu_wfs_get_parcels_bbox(x, srs, count=count)
   }
-  else if ((province1 == "Araba/Álava") & (province2 =="Araba/Álava")){
-    print("Province of Araba/Álava:")
+  else if ((province1 == "Araba/\u00C1lava") & (province2 =="Araba/\u00C1lava")){
+    print("Province of Araba/\u00C1lava:")
     print("-------------------------------")
     catreus_arab_wfs_get_parcels_bbox(x, srs, count=count)
   }

@@ -1,4 +1,6 @@
 #' Retrieve Building Data in Pais Vasco Based on Bounding Box Coordinates
+#' 
+#' @importFrom sf st_as_sf st_transform st_coordinates
 #'
 #' @description
 #' Fetches the spatial data of buildings within a specified bounding box. The function
@@ -22,7 +24,7 @@
 #'   - An `sf` object containing building data within the specified bbox.
 #'   - A message indicating mismatched or out-of-region coordinates.
 #'
-#' @seealso \link[sf::st_bbox]{sf::st_bbox()}, which is used to manage spatial bounding boxes.
+#' @seealso \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.
 #'
 #' @details
 #' This function uses reverse geocoding to determine the province within the Basque Country
@@ -104,13 +106,13 @@ catreus_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
     print("-------------------------------")
     catreus_gipu_wfs_get_buildings_bbox(x, srs, count=count)
   }
-  else if ((province1 == "Araba/Álava") & (province2 =="Araba/Álava")){
-    print("Province of Araba/Álava:")
+  else if ((province1 == "Araba/\u00C1lava") & (province2 =="Araba/\u00C1lava")){
+    print("Province of Araba/\u00C1lava:")
     print("-------------------------------")
     catreus_arab_wfs_get_buildings_bbox(x, srs, count=count)
   }
   else if (province1 != province2){
-    print("This coordinates englobe 2 differente province, please select coordinates for 1 province")
+    print("This coordinates englobe 2 different province, please select coordinates for 1 province")
   }
   else {
     print("This coordinates aren't from Pais Vasco")

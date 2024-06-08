@@ -1,3 +1,12 @@
+#' Get static tiles from public administrations of Spain
+#'
+#' @description
+#' Get static map tiles based on a spatial object. Maps can be fetched from
+#' various open map servers.
+#'
+#' @importFrom utils modifyList
+#' @noRd
+
 getTiles_eus <- function(x,
                              type = "IDErioja",
                              zoom = NULL,
@@ -125,7 +134,7 @@ getTiles_eus <- function(x,
     newdir <- eus_get_md5(newdir)
     
     cache_dir <- file.path(cache_dir, newdir)
-    cache_dir <- esp_hlp_cachedir(cache_dir)
+    cache_dir <- catreus_hlp_cachedir(cache_dir)
   }
   
   # Get CRS of Tile
@@ -242,6 +251,11 @@ getTiles_eus <- function(x,
   return(rout)
 }
 
+
+#' @name eus_hlp_split_url
+#' @importFrom utils modifyList
+#' @noRd
+
 eus_hlp_split_url <- function(url_static) {
   split <- unlist(strsplit(url_static, "?", fixed = TRUE))
   
@@ -283,7 +297,7 @@ eus_get_md5 <- function(x) {
 }
 
 #' Get tiles from WMS
-#'
+#' @importFrom utils download.file
 #' @param transparent Transparency
 #' @param bbox_expand Expansion of the bbox
 #' @param url_pieces Provider
@@ -568,6 +582,7 @@ compose_tile_grid <- function(tile_grid, ext, images, transparent, crs) {
 
 
 #' @name dl_t
+#' @importFrom utils download.file
 #' @noRd
 
 dl_t <- function(x, z, ext, src, q, verbose, cache_dir, update_cache) {

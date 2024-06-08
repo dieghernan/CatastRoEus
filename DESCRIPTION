@@ -16,12 +16,17 @@ Depends:
     R (>= 3.6)
 Imports: 
     tidygeocoder,
+    tidyterra,
     rappdirs,
     sf (>= 1.0.0),
     stringi,
     tibble,
     xml2,
-    curl
+    png,
+    curl,
+    slippymath,
+    terra,
+    utils
 Suggests:
     CatastRo,
     dplyr,

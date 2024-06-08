@@ -1,4 +1,6 @@
 #' WMS INSPIRE: Retrieve Map Images from the Basque Country (Pais Vasco) Based on Bounding Box Coordinates
+#' 
+#' @importFrom sf st_as_sf st_transform st_coordinates
 #'
 #' @description
 #' Fetches geotagged images from the Cadastre based on the provided bounding box coordinates.
@@ -33,6 +35,7 @@
 #' - `"admunit"`: AU.AdministrativeUnit
 #' - `"admbound"`: AU.AdministrativeBoundary
 #' - `"building"`: BU.Building
+#' 
 #' @param styles Specifies the style of the WMS layer, see **Styles** for options.
 #' @param id An identifier for the custom WMS service configuration.
 #' @param verbose Logical; if `TRUE`, prints additional information about function operations.
@@ -48,8 +51,7 @@
 #' @family spatial data layers from Basque Country (Pais Vasco)
 #'
 #' @seealso
-#' [mapSpain::esp_getTiles()], [mapSpain::esp_make_provider()], [terra::RGB()], 
-#' [catreus_arab_wms_get_layer()], [catreus_gipu_wms_get_layer()], [catreus_bizk_wms_get_layer()]. 
+#' [mapSpain::esp_getTiles()], [mapSpain::esp_make_provider()], [terra::RGB()]. 
 #' For advanced plotting, see [terra::plotRGB()] and [tidyterra::geom_spatraster_rgb()].
 #'
 #' @details
@@ -87,6 +89,7 @@
 #' library(mapSpain)
 #' library(ggplot2)
 #' library(terra)
+#' library(tidyterra)
 #'
 #' # Fetching a building layer using specific bounding box coordinates (Araba)
 #' pic_bu <- catreus_wms_get_layer(c(-298730.238481,5288011.551711,-296360.690604,5289922.477418), 
@@ -150,8 +153,8 @@ catreus_wms_get_layer <- function(x, srs, what = c("parcel", "admunit", "admboun
     }
     catreus_gipu_wms_get_layer(x, srs, what = what, styles = styles, id = id)
   }
-  else if ((province1 == "Araba/Álava") & (province2 == "Araba/Álava")){
-    print("Coordinates of Araba/Álava:")
+  else if ((province1 == "Araba/\u00C1lava") & (province2 == "Araba/\u00C1lava")){
+    print("Coordinates of Araba/\u00C1lava:")
     print(what)
     catreus_arab_wms_get_layer(x, srs, what = what, styles = styles, id = id)
   }

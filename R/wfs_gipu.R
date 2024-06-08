@@ -11,7 +11,6 @@
 #' @source
 #' [Gipuzkoa Spatial Data Infrastructure](https://b5m.gipuzkoa.eus/web5000/en/inspire-services)
 #'
-#' @export
 #'
 #' @examples
 #' \donttest{
@@ -81,7 +80,6 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #' @source
 #' [Gipuzkoa Spatial Data Infrastructure](https://b5m.gipuzkoa.eus/web5000/en/inspire-services)
 #'
-#' @export
 #'
 #' @examples
 #' \donttest{
@@ -142,7 +140,6 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @source
 #' [Gipuzkoa Spatial Data Infrastructure](https://b5m.gipuzkoa.eus/web5000/en/inspire-services)
 #'
-#' @export
 #'
 #' @examples
 #' \donttest{

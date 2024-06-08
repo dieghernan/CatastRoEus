@@ -12,8 +12,6 @@
 #' [INSPIREBIZKAIA](https://www.bizkaia.eus/es/inspirebizkaia#wfs)
 #'
 #'
-#' @export
-#'
 #' @examples
 #' \donttest{
 #' x <- c(43.312, -2.994, 43.313, -2.993)
@@ -84,8 +82,6 @@ catreus_bizk_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #' [INSPIREBIZKAIA](https://www.bizkaia.eus/es/inspirebizkaia#wfs)
 #'
 #'
-#' @export
-#'
 #' @examples
 #' \donttest{
 #' x <- c(43.312, -2.994, 43.313, -2.993)
@@ -148,8 +144,6 @@ catreus_bizk_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @source
 #' [INSPIREBIZKAIA](https://www.bizkaia.eus/es/inspirebizkaia#wfs)
 #'
-#'
-#' @export
 #'
 #' @examples
 #' \donttest{

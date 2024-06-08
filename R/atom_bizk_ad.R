@@ -55,6 +55,8 @@ catreus_bizk_atom_get_addresses_db_all <- function(cache = TRUE,
 }
 
 #' ATOM INSPIRE: Download all the addresses of a municipality in Bizkaia
+#' 
+#' @importFrom utils modifyList unzip
 #'
 #' @description
 #' Get the spatial data of all the addresses belonging to a single
