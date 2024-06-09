@@ -110,8 +110,8 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
   }
   else{
     crs = 25830
-    coords <- matrix(coords, ncol = 2, byrow = TRUE)
-    sf_object <- st_as_sf(data.frame(x = coords[, 1], y = coords[, 2]), coords = c("x", "y"), crs = crs)
+    coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
+    sf_object <- st_as_sf(data.frame(x = coords_prov[, 1], y = coords_prov[, 2]), coords = c("x", "y"), crs = crs)
     transformed_sf_4326 <- st_transform(sf_object, crs = 4326)
     coords2 <- st_coordinates(transformed_sf_4326)
     lat1 = coords2[1, "Y"]
@@ -136,13 +136,9 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
   else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")) {
     print("Province of Bizkaia:")
     print("-------------------------------")
-    if (is.null(count)){
-      catreus_bizk_wfs_get_buildings_bbox(coords, srs, count = count)
-    }
-    else{
-      catreus_bizk_wfs_get_buildings_bbox(coords, srs, count = NULL)
-    }
-  } else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")) {
+    catreus_bizk_wfs_get_buildings_bbox(coords, srs, count = count)
+  } 
+  else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")) {
     print("Province of Gipuzkoa:")
     print("-------------------------------")
     if (is.null(count)){
@@ -165,7 +161,3 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
     return(NULL)
   }
 }
-
-bbox <- get_sf_from_bbox(
-  c(539226.596, 4744012.338, 539236.286, 4744133.782), srs = 25830
-)

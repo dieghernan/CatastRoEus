@@ -116,22 +116,48 @@
 #'
 #' @export
 
-catreus_wms_get_layer <- function(x, srs, what = c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother"),
-                                  id, styles = NULL, verbose = FALSE){
+catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother"),
+                                  id = "change_id", styles = NULL, verbose = FALSE, crop = FALSE, options = list()){
+  
+  if (missing(what)) {
+    what <- what[1]
+  }
+  
+  # Validar que el valor de `what` esté dentro de los permitidos
+  if (!what %in% c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother")) {
+    stop("The value of 'what' is not valid.")
+  }
+  
+  if (inherits(x, "sf") || inherits(x, "sfc")) {
+    # Convertir el objeto sf a bbox
+    bbox <- sf::st_bbox(x)
+    coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
+    if (is.null(srs)) {
+      srs <- sf::st_crs(x)$epsg
+    }
+  } else if (is.numeric(x) && length(x) == 4) {
+    coords <- x
+    if (is.null(srs)) {
+      stop("Please provide a srs value")
+    }
+  } else {
+    stop("The x parameter should be a numeric vector with length 4 or an sf/sfc object.")
+  }
+  
   if (srs == 3857){
     crs = 3857
   }
   else {
     crs = 25830
   }
-  coords <- matrix(x, ncol = 2, byrow = TRUE)
-  sf_object <- st_as_sf(data.frame(x = coords[,1], y = coords[,2]), coords = c("x", "y"), crs = crs)
+  coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
+  sf_object <- st_as_sf(data.frame(x = coords_prov[,1], y = coords_prov[,2]), coords = c("x", "y"), crs = crs)
   transformed_sf <- st_transform(sf_object, crs = 4326)
-  coords <- st_coordinates(transformed_sf)
-  lat1 = coords[1, "Y"]
-  long1 = coords[1, "X"]
-  lat2 = coords[2, "Y"]
-  long2 = coords[2, "X"]
+  coords2 <- st_coordinates(transformed_sf)
+  lat1 = coords2[1, "Y"]
+  long1 = coords2[1, "X"]
+  lat2 = coords2[2, "Y"]
+  long2 = coords2[2, "X"]
   town_data1 = tidygeocoder::reverse_geo(lat = lat1,long = long1,method = "osm", full_results = TRUE)
   town_data2 = tidygeocoder::reverse_geo(lat = lat2,long = long2,method = "osm", full_results = TRUE)
   province1<- town_data1$province
@@ -143,7 +169,7 @@ catreus_wms_get_layer <- function(x, srs, what = c("parcel", "admunit", "admboun
     if (is.null(styles)){
       styles = "default"
     }
-    catreus_bizk_wms_get_layer(x, srs, what = what, styles = styles, id = id)
+    catreus_bizk_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")){
     print("Coordinates of Gipuzkoa:")
@@ -151,12 +177,12 @@ catreus_wms_get_layer <- function(x, srs, what = c("parcel", "admunit", "admboun
     if (is.null(styles)){
       styles = "default"
     }
-    catreus_gipu_wms_get_layer(x, srs, what = what, styles = styles, id = id)
+    catreus_gipu_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if ((province1 == "Araba/\u00C1lava") & (province2 == "Araba/\u00C1lava")){
     print("Coordinates of Araba/\u00C1lava:")
     print(what)
-    catreus_arab_wms_get_layer(x, srs, what = what, styles = styles, id = id)
+    catreus_arab_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if (province1 != province2){
     print("This coordinates englobe 2 different province, please select coordinates for 1 province")

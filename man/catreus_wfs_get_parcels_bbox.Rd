@@ -4,7 +4,7 @@
 \alias{catreus_wfs_get_parcels_bbox}
 \title{Retrieve Parcel Data in Pais Vasco Based on Bounding Box Coordinates}
 \usage{
-catreus_wfs_get_parcels_bbox(x, srs, verbose = FALSE, count = 10)
+catreus_wfs_get_parcels_bbox(x, srs = NULL, verbose = FALSE, count = NULL)
 }
 \arguments{
 \item{x}{Bounding box coordinates or a spatial object, which could be:

@@ -143,15 +143,11 @@ catreus_bizk_atom_get_buildings <- function(munic,
 
   # Guess what to read
   files <- list.files(exdir, full.names = TRUE, pattern = ".gml$")
-  print(files)
-  print(length(files))
   if (length(files) > 1) {
     files = (files[2])
   } else {
     files = files
   }
-  print(files)
-  print(length(files))
 
   sfobj <- st_read_layers_encoding(files, verbose)
 

@@ -72,50 +72,93 @@
 #' @export
 
 
-catreus_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
-                                           count = 10){
-  if ((x[2]<90) & (x[2]>-90)){
-    lat1 = x[1]
-    long1 = x[2]
-    lat2 = x[3]
-    long2 = x[4]
+catreus_wfs_get_parcels_bbox <- function(x, srs = NULL, 
+                                         verbose = FALSE, count = NULL) {
+  
+  if (verbose == TRUE){
+    message("Beginning analytics")
   }
-  else {
+  
+  if (inherits(x, "sf") || inherits(x, "sfc")) {
+    # Convertir el objeto sf a bbox
+    bbox <- sf::st_bbox(x)
+    coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
+    if (is.null(srs)) {
+      srs <- sf::st_crs(x)$epsg
+    }
+  } else if (is.numeric(x) && length(x) == 4) {
+    coords <- x
+    if (is.null(srs)) {
+      stop("Please provide a srs value")
+    }
+  } else {
+    stop("The x parameter should be a numeric vector with length 4 or an sf/sfc object.")
+  }
+  
+  if ((coords[2] < 90) & (coords[2] > -90)) {
+    if ((coords[1] > 10) & (coords[3]>10)){
+      lat1 <- coords[1]
+      long1 <- coords[2]
+      lat2 <- coords[3]
+      long2 <- coords[4]
+    }
+    else{
+      lat1 <- coords[2]
+      long1 <- coords[1]
+      lat2 <- coords[4]
+      long2 <- coords[3]
+    }
+  }
+  else{
     crs = 25830
-    coords <- matrix(x, ncol = 2, byrow = TRUE)
-    sf_object <- st_as_sf(data.frame(x = coords[,1], y = coords[,2]), coords = c("x", "y"), crs = crs)
-    transformed_sf <- st_transform(sf_object, crs = 4326)
-    coords <- st_coordinates(transformed_sf)
-    lat1 = coords[1, "Y"]
-    long1 = coords[1, "X"]
-    lat2 = coords[2, "Y"]
-    long2 = coords[2, "X"]
+    coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
+    sf_object <- st_as_sf(data.frame(x = coords_prov[, 1], y = coords_prov[, 2]), coords = c("x", "y"), crs = crs)
+    transformed_sf_4326 <- st_transform(sf_object, crs = 4326)
+    coords2 <- st_coordinates(transformed_sf_4326)
+    lat1 = coords2[1, "Y"]
+    long1 = coords2[1, "X"]
+    lat2 = coords2[2, "Y"]
+    long2 = coords2[2, "X"]
   }
-  town_data1 = tidygeocoder::reverse_geo(lat = lat1,long = long1,method = "osm", full_results = TRUE)
-  town_data2 = tidygeocoder::reverse_geo(lat = lat2,long = long2,method = "osm", full_results = TRUE)
-  province1<- town_data1$province
-  province2<- town_data2$province
   
+  town_data1 = tidygeocoder::reverse_geo(lat = lat1, long = long1, method = "osm", full_results = TRUE)
+  town_data2 = tidygeocoder::reverse_geo(lat = lat2, long = long2, method = "osm", full_results = TRUE)
   
-  if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
+  if (!"province" %in% names(town_data1) || !"province" %in% names(town_data2)) {
+    stop("No address could be determined from the provided coordinates.")
+  }
+  
+  province1 <- town_data1$province
+  province2 <- town_data2$province
+  
+  if (is.null(province1) || is.null(province2)) {
+    stop("No province could be determined from the provided coordinates.")
+  }
+  else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
     print("Province of Bizkaia:")
     print("-------------------------------")
-    catreus_bizk_wfs_get_parcels_bbox(x, srs, count=count)
+    catreus_bizk_wfs_get_parcels_bbox(coords, srs, count=count)
   }
   else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")){
     print("Province of Gipuzkoa:")
     print("-------------------------------")
-    catreus_gipu_wfs_get_parcels_bbox(x, srs, count=count)
+    if (is.null(count)){
+      count = 10
+    }
+    catreus_gipu_wfs_get_parcels_bbox(coords, srs, count=count)
   }
   else if ((province1 == "Araba/\u00C1lava") & (province2 =="Araba/\u00C1lava")){
     print("Province of Araba/\u00C1lava:")
     print("-------------------------------")
-    catreus_arab_wfs_get_parcels_bbox(x, srs, count=count)
+    if (is.null(count)){
+      count = 10
+    }
+    catreus_arab_wfs_get_parcels_bbox(coords, srs, count=count)
   }
-  else if (province1 != province2){
-    print("This coordinates englobe 2 different province, please select coordinates for 1 province")
-  }
+  else if (province1 != province2) {
+    stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
+  } 
   else {
-    print("This coordinates aren't from Pais Vasco")
+    return(NULL)
   }
 }

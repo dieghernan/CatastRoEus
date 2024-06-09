@@ -6,11 +6,13 @@
 \usage{
 catreus_wms_get_layer(
   x,
-  srs,
+  srs = NULL,
   what = c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother"),
-  id,
+  id = "change_id",
   styles = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  crop = FALSE,
+  options = list()
 )
 }
 \arguments{
