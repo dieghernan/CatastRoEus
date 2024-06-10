@@ -107,6 +107,7 @@ catreus_wfs_get_parcels_bbox <- function(x, srs = NULL,
       long1 <- coords[1]
       lat2 <- coords[4]
       long2 <- coords[3]
+      coords <- c(lat1, long1, lat2, long2)
     }
   }
   else{
@@ -135,16 +136,22 @@ catreus_wfs_get_parcels_bbox <- function(x, srs = NULL,
     stop("No province could be determined from the provided coordinates.")
   }
   else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
+    if (srs != 25830){
+      srs = 25830
+    }
     print("Province of Bizkaia:")
     print("-------------------------------")
     catreus_bizk_wfs_get_parcels_bbox(coords, srs, count=count)
   }
   else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")){
-    print("Province of Gipuzkoa:")
-    print("-------------------------------")
+    if (srs != 25830){
+      srs = 25830
+    }
     if (is.null(count)){
       count = 10
     }
+    print("Province of Gipuzkoa:")
+    print("-------------------------------")
     catreus_gipu_wfs_get_parcels_bbox(coords, srs, count=count)
   }
   else if ((province1 == "Araba/\u00C1lava") & (province2 =="Araba/\u00C1lava")){

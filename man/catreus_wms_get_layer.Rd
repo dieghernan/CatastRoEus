@@ -59,6 +59,10 @@ For Araba:
 
 \item{verbose}{Logical; if \code{TRUE}, prints additional information about function operations.
 Useful for debugging. Default is \code{FALSE}.}
+
+\item{crop}{Logical; if \code{TRUE}, the returned image will be cropped to the bbox. Default is \code{FALSE}.}
+
+\item{options}{List; additional options for the WMS request.}
 }
 \value{
 Returns a \code{\link[terra:rast]{SpatRaster}} object with either RGB or RGBA layers depending on the data.

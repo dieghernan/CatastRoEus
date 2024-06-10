@@ -84,6 +84,9 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
     coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
     if (is.null(srs)) {
       srs <- sf::st_crs(x)$epsg
+      if (srs != 25830){
+        srs <- 25830
+      }
     }
   } else if (is.numeric(x) && length(x) == 4) {
     coords <- x
@@ -106,6 +109,7 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
       long1 <- coords[1]
       lat2 <- coords[4]
       long2 <- coords[3]
+      coords <- c(lat1, long1, lat2, long2)
     }
   }
   else{

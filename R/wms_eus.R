@@ -38,6 +38,8 @@
 #' 
 #' @param styles Specifies the style of the WMS layer, see **Styles** for options.
 #' @param id An identifier for the custom WMS service configuration.
+#' @param crop Logical; if `TRUE`, the returned image will be cropped to the bbox. Default is `FALSE`.
+#' @param options List; additional options for the WMS request.
 #' @param verbose Logical; if `TRUE`, prints additional information about function operations.
 #'   Useful for debugging. Default is `FALSE`.
 #'
