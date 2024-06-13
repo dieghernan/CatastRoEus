@@ -1,12 +1,14 @@
 #' Retrieve Building Data in Pais Vasco Based on Bounding Box Coordinates
 #' 
-#' @importFrom sf st_as_sf st_transform st_coordinates
-#'
+#' @importFrom sf st_as_sf st_transform st_coordinates 
+#' @importFrom sf st_buffer
+#' @importFrom magrittr %>%
+#' 
 #' @description
-#' Fetches the spatial data of buildings within a specified bounding box. The function
-#' determines the province based on the provided coordinates and fetches building data
-#' for Bizkaia, Gipuzkoa, or Araba/Álava accordingly. It checks if the bounding box
-#' falls within a single province and handles different CRS inputs.
+#' This function fetches buildings data within a specified bounding box. It first checks if the provided coordinates are valid,
+#' determines the province based on these coordinates using reverse geocoding, and fetches buildings data for
+#' Bizkaia, Gipuzkoa, or Araba/Álava accordingly. It supports transformations between geographical and UTM coordinate systems,
+#' handles multiple Coordinate Reference Systems (CRS), and manages different minimum counts for returned records.
 #'
 #' @param x Bounding box coordinates or a spatial object, which could be:
 #'   - A numeric vector of length 4 with the coordinates defining the bounding box:
@@ -14,7 +16,7 @@
 #'   - An `sf/sfc` object from the \CRANpkg{sf} package.
 #' @param srs Spatial Reference System (SRS) or Coordinate Reference System (CRS) code 
 #'   to be used in the query. For best results, ensure the coordinates are in ETRS89
-#'   (EPSG:4258) or WGS84 (EPSG:4326) when using latitude and longitude.
+#'   (EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.
 #' @param verbose Logical; if `TRUE`, additional information about function operations 
 #'   is printed. Useful for debugging. Default is `FALSE`.
 #' @param count Integer specifying the maximum number of building records to return.
@@ -34,8 +36,13 @@
 #'
 #' @examples
 #' \donttest{
+#' 
+#' library(mapSpain)
+#' library(dplyr)
+#' library(sf)
+#' 
 #' # Define bounding box coordinates for a location in Gipuzkoa
-#' coords_gipuzkoa <- c(42.994337, -2.554863, 43.344138, -1.779831)
+#' coords_gipuzkoa <- c(580335.961264, 4795197.149650, 581482.214894, 4795985.065492)
 #'
 #' # Fetch building data using the bounding box
 #' buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 25830, count = 10)
@@ -46,26 +53,21 @@
 #'   geom_sf() + ggtitle("Building Data for Gipuzkoa")
 #'
 #' # Define bounding box coordinates for a location in Bizkaia
-#' coords_bizkaia <- c(43.312, -2.994, 43.313, -2.993)
-#' 
-#' # Fetch building data using the bounding box
-#' buildings_bizkaia <- catreus_wfs_get_buildings_bbox(coords_bizkaia, srs = 25830, count = 10)
-#' 
-#' library(ggplot2)
-#' # Plot the buildings data for Bizkaia
-#' ggplot(buildings_bizkaia) +
-#'   geom_sf() + ggtitle("Building Data for Bizkaia")
+#' bilbao <- esp_get_capimun(munic = "Bilbao") %>%
+#'   st_transform(25830) %>%
+#'   st_buffer(300)
+#' buildings_bilbao <- catreus_wfs_get_buildings_bbox(bilbao)
+#' ggplot(buildings_bilbao) + geom_sf() + ggtitle("Buildings Data for Bilbao")
 #'
 #' # Define bounding box coordinates for a rural location in Araba/Álava
-#' coords_araba <- c(539226.596, 4744012.338, 539236.286, 4744133.782)
+#' coords_alaba = c(525858.205755, 4742911.412803, 526701.543389, 4743398.976145)
 #' 
 #' # Fetch building data using the bounding box, requesting more features
-#' buildings_araba <- catreus_wfs_get_buildings_bbox(coords_araba, srs = 25830, count = 20)
+#' buildings_alaba <- catreus_wfs_get_buildings_bbox(coords_alaba, srs = 25830)
 #' 
 #' library(ggplot2)
 #' # Plot the buildings data for Araba/Álava
-#' ggplot(buildings_araba) +
-#'   geom_sf() + ggtitle("Building Data for Araba/Álava")
+#' ggplot(buildings_alaba) + geom_sf() + ggtitle("Building Data for Alaba")
 #' 
 #' }
 #'   
@@ -73,7 +75,8 @@
 
 catreus_wfs_get_buildings_bbox <- function(x, srs = NULL, 
                                            verbose = FALSE, count = NULL) {
-  
+  coords2 <- NULL
+  min_count <- 500
   if (verbose == TRUE){
     message("Beginning analytics")
   }
@@ -84,9 +87,6 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
     coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
     if (is.null(srs)) {
       srs <- sf::st_crs(x)$epsg
-      if (srs != 25830){
-        srs <- 25830
-      }
     }
   } else if (is.numeric(x) && length(x) == 4) {
     coords <- x
@@ -117,11 +117,12 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
     coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
     sf_object <- st_as_sf(data.frame(x = coords_prov[, 1], y = coords_prov[, 2]), coords = c("x", "y"), crs = crs)
     transformed_sf_4326 <- st_transform(sf_object, crs = 4326)
-    coords2 <- st_coordinates(transformed_sf_4326)
-    lat1 = coords2[1, "Y"]
-    long1 = coords2[1, "X"]
-    lat2 = coords2[2, "Y"]
-    long2 = coords2[2, "X"]
+    coords_4326 <- st_coordinates(transformed_sf_4326)
+    lat1 = coords_4326[1, "Y"]
+    long1 = coords_4326[1, "X"]
+    lat2 = coords_4326[2, "Y"]
+    long2 = coords_4326[2, "X"]
+    coords2 = c(lat1,long1,lat2,long2)
   }
   
   town_data1 = tidygeocoder::reverse_geo(lat = lat1, long = long1, method = "osm", full_results = TRUE)
@@ -137,27 +138,61 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
   if (is.null(province1) || is.null(province2)) {
     stop("No province could be determined from the provided coordinates.")
   }
-  else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")) {
+  else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
     print("Province of Bizkaia:")
     print("-------------------------------")
-    catreus_bizk_wfs_get_buildings_bbox(coords, srs, count = count)
-  } 
-  else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")) {
+    if (srs != 25830){
+      srs = 25830
+    }
+    if (is.null(coords2)){
+      catreus_bizk_wfs_get_buildings_bbox(coords, srs, count=count)
+    }
+    else {
+      catreus_bizk_wfs_get_buildings_bbox(coords2, srs, count=count)
+    }
+  }
+  else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")){
     print("Province of Gipuzkoa:")
     print("-------------------------------")
-    if (is.null(count)){
-      count = 10
+    if (srs != 25830){
+      srs = 25830
     }
-    catreus_gipu_wfs_get_buildings_bbox(coords, srs, count = count)
+    if (is.null(count)){
+      count <- min_count
+    }
+    if (is.null(coords2)){
+      catreus_gipu_wfs_get_buildings_bbox(coords, srs, count=count)
+    }
+    else {
+      catreus_gipu_wfs_get_buildings_bbox(coords2, srs, count=count)
+    }
   }
   else if ((province1 == "Araba/\u00C1lava") & (province2 =="Araba/\u00C1lava")){
     print("Province of Araba/\u00C1lava:")
     print("-------------------------------")
     if (is.null(count)){
-      count = 10
-    }  
-    catreus_arab_wfs_get_buildings_bbox(coords, srs, count=count)
-  } 
+      count <- min_count
+    }
+    if (srs != 25830){
+      srs = 25830
+    }
+    if (is.null(coords2)){
+      crs = 4326
+      coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
+      sf_object <- st_as_sf(data.frame(x = coords_prov[, 2], y = coords_prov[, 1]), coords = c("x", "y"), crs = crs)
+      transformed_sf_25830 <- st_transform(sf_object, crs = 25830)
+      coords_25830 <- st_coordinates(transformed_sf_25830)
+      lat1 = coords_25830[1, "X"]
+      long1 = coords_25830[1, "Y"]
+      lat2 = coords_25830[2, "X"]
+      long2 = coords_25830[2, "Y"]
+      coords3 = c(lat1,long1,lat2,long2)
+      catreus_arab_wfs_get_buildings_bbox(coords3, srs, count=count)
+    }
+    else{
+      catreus_arab_wfs_get_buildings_bbox(coords, srs, count=count)
+    }
+  }
   else if (province1 != province2) {
     stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
   } 

@@ -35,7 +35,7 @@ test_that("BBOX Check projections", {
   # Convert to spatial object
   
   bbox <- get_sf_from_bbox(
-    c(539226.596, 4744012.338, 539236.286, 4744133.782), srs = 25830
+    c(504629.714699,4789184.896792, 505966.547301,4790102.230235), srs = 25830
   )
   expect_s3_class(bbox, "sfc")
   

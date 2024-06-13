@@ -16,7 +16,7 @@ catreus_wfs_get_address_bbox(x, srs = NULL, verbose = FALSE, count = NULL)
 
 \item{srs}{Spatial Reference System (SRS) or Coordinate Reference System (CRS) code
 to be used in the query. For best results, ensure the coordinates are in ETRS89
-(EPSG:4258) or WGS84 (EPSG:4326) when using latitude and longitude.}
+(EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.}
 
 \item{verbose}{Logical; if \code{TRUE}, additional information about function operations
 is printed. Useful for debugging. Default is \code{FALSE}.}
@@ -33,10 +33,10 @@ Depending on the input and geographic location, this function may return:
 }
 }
 \description{
-Fetches address data within a specified bounding box. The function determines
-the province based on the provided coordinates and fetches address data for
-Bizkaia or Gipuzkoa accordingly. It checks if the bounding box
-falls within a single province and handles different CRS inputs.
+This function fetches addresses data within a specified bounding box. It first checks if the provided coordinates are valid,
+determines the province based on these coordinates using reverse geocoding, and fetches address data for
+Bizkaia or Gipuzkoa accordingly. It supports transformations between geographical and UTM coordinate systems,
+handles multiple Coordinate Reference Systems (CRS), and manages different minimum counts for returned records.
 }
 \details{
 This function uses reverse geocoding to determine the province within the Basque Country
@@ -46,11 +46,12 @@ handles geographical coordinate transformations internally if needed.
 }
 \examples{
 \donttest{
+
 # Define bounding box coordinates for an urban location in Gipuzkoa
-coords_gipuzkoa <- c(43.026899, -2.433164, 43.308497, -2.063099)
+coords_gipuzkoa <-  c(582745.070132,4795611.169048,584249.337348,4796830.604835)
 
 # Fetch address data using the bounding box
-addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830, count = 10)
+addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830)
 
 library(ggplot2)
 # Plot the buildings data
@@ -58,7 +59,7 @@ ggplot(addresses_gipuzkoa) +
   geom_sf() + ggtitle("Addresses Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
-coords_bizkaia <- c(43.312, -2.994, 43.313, -2.993)
+coords_bizkaia <- c(499307.414680, 4792958.784686, 502508.961032, 4796815.771278)
 
 # Fetch address data using the bounding box
 addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 25830)

@@ -26,10 +26,11 @@ Imports:
     curl,
     slippymath,
     terra,
-    utils
+    utils,
+    dplyr,
+    magrittr
 Suggests:
     CatastRo,
-    dplyr,
     ggplot2,
     knitr,
     mapSpain,

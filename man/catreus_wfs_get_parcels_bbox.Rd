@@ -16,7 +16,7 @@ catreus_wfs_get_parcels_bbox(x, srs = NULL, verbose = FALSE, count = NULL)
 
 \item{srs}{Spatial Reference System (SRS) or Coordinate Reference System (CRS) code
 to be used in the query. For best results, ensure the coordinates are in ETRS89
-(EPSG:4258) or WGS84 (EPSG:4326) when using latitude and longitude.}
+(EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.}
 
 \item{verbose}{Logical; if \code{TRUE}, additional information about function operations
 is printed. Useful for debugging. Default is \code{FALSE}.}
@@ -33,24 +33,29 @@ Depending on the input and geographic location, this function may return:
 }
 }
 \description{
-Fetches parcel data within a specified bounding box. The function determines
-the province based on the provided coordinates and fetches parcel data for
-Bizkaia, Gipuzkoa, or Araba/Álava accordingly. It checks if the bounding box
-falls within a single province and handles different CRS inputs.
+This function fetches parcel data within a specified bounding box. It first checks if the provided coordinates are valid,
+determines the province based on these coordinates using reverse geocoding, and fetches parcel data for
+Bizkaia, Gipuzkoa, or Araba/Álava accordingly. It supports transformations between geographical and UTM coordinate systems,
+handles multiple Coordinate Reference Systems (CRS), and manages different minimum counts for returned records.
 }
 \details{
-This function uses reverse geocoding to determine the province within the Basque Country
-from the coordinates provided. Based on the province, it delegates the data fetching to
-specific functions handling each province's data. It supports flexible input types and
-handles geographical coordinate transformations internally if needed.
+The function uses reverse geocoding to identify the province within the Basque Country.
+It delegates data fetching to province-specific functions, which handle data extraction based on the
+provided geographic bounds. The function adapts dynamically to coordinate system inputs and provides options
+for detailed logging to facilitate debugging and verification of operations.
 }
 \examples{
 \donttest{
+
+library(mapSpain)
+library(dplyr)
+library(sf)
+
 # Define bounding box coordinates for an urban location in Gipuzkoa
-coords_gipuzkoa <- c(43.312, -2.994, 43.313, -2.993)
+coords_gipuzkoa <- c(582745.070132,4795611.169048,584249.337348,4796830.604835)
 
 # Fetch parcel data using the bounding box
-parcels_gipuzkoa <- catreus_wfs_get_parcels_bbox(coords_gipuzkoa, srs = 25830, count = 10)
+parcels_gipuzkoa <- catreus_wfs_get_parcels_bbox(coords_gipuzkoa, srs = 25830)
 
 library(ggplot2)
 # Plot the parcels data
@@ -58,7 +63,7 @@ ggplot(parcels_gipuzkoa) +
   geom_sf() + ggtitle("Parcels Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
-coords_bizkaia <- c(43.312, -2.994, 43.313, -2.993)
+coords_bizkaia <- c(504218.816311, 4788948.595082, 505374.746026, 4789719.963173)
 
 # Fetch parcel data using the bounding box
 parcels_bizkaia <- catreus_wfs_get_parcels_bbox(coords_bizkaia, srs = 25830)
@@ -69,15 +74,15 @@ ggplot(parcels_bizkaia) +
   geom_sf() + ggtitle("Parcels Data for Bizkaia")
 
 # Define bounding box coordinates for a location in Araba
-coords_araba <- c(539032.421, 4744519.903, 539032.676, 4744522.22)
 
 # Fetch parcel data using the bounding box
-parcels_araba <- catreus_wfs_get_parcels_bbox(coords_araba, srs = 25830, count = 10)
+vitoria <- esp_get_capimun(munic = "Vitoria") \%>\%
+  st_transform(4326) \%>\%
+  # Small buffer of 200 m
+  st_buffer(300)
+  
+parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
 
-library(ggplot2)
-# Plot the parcels data for Araba
-ggplot(parcels_araba) +
-  geom_sf() + ggtitle("Parcels Data for Araba")
 }
   
 }

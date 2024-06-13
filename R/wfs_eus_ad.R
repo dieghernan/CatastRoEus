@@ -1,12 +1,13 @@
 #' Retrieve Address Data in Pais Vasco Based on Bounding Box Coordinates
 #' 
-#' @importFrom sf st_as_sf st_transform st_coordinates
+#' @importFrom sf st_as_sf st_transform st_coordinates st_buffer
+#' @importFrom magrittr %>%
 #'
 #' @description
-#' Fetches address data within a specified bounding box. The function determines
-#' the province based on the provided coordinates and fetches address data for
-#' Bizkaia or Gipuzkoa accordingly. It checks if the bounding box
-#' falls within a single province and handles different CRS inputs.
+#' This function fetches addresses data within a specified bounding box. It first checks if the provided coordinates are valid,
+#' determines the province based on these coordinates using reverse geocoding, and fetches address data for
+#' Bizkaia or Gipuzkoa accordingly. It supports transformations between geographical and UTM coordinate systems,
+#' handles multiple Coordinate Reference Systems (CRS), and manages different minimum counts for returned records.
 #'
 #' @param x Bounding box coordinates or a spatial object, which could be:
 #'   - A numeric vector of length 4 with the coordinates defining the bounding box:
@@ -14,7 +15,7 @@
 #'   - An `sf/sfc` object from the \CRANpkg{sf} package.
 #' @param srs Spatial Reference System (SRS) or Coordinate Reference System (CRS) code 
 #'   to be used in the query. For best results, ensure the coordinates are in ETRS89
-#'   (EPSG:4258) or WGS84 (EPSG:4326) when using latitude and longitude.
+#'   (EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.
 #' @param verbose Logical; if `TRUE`, additional information about function operations 
 #'   is printed. Useful for debugging. Default is `FALSE`.
 #' @param count Integer specifying the maximum number of address records to return,
@@ -35,11 +36,12 @@
 #'
 #' @examples
 #' \donttest{
+#' 
 #' # Define bounding box coordinates for an urban location in Gipuzkoa
-#' coords_gipuzkoa <- c(43.026899, -2.433164, 43.308497, -2.063099)
+#' coords_gipuzkoa <-  c(582745.070132,4795611.169048,584249.337348,4796830.604835)
 #'
 #' # Fetch address data using the bounding box
-#' addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830, count = 10)
+#' addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830)
 #' 
 #' library(ggplot2)
 #' # Plot the buildings data
@@ -47,7 +49,7 @@
 #'   geom_sf() + ggtitle("Addresses Data for Gipuzkoa")
 #'
 #' # Define bounding box coordinates for a location in Bizkaia
-#' coords_bizkaia <- c(43.312, -2.994, 43.313, -2.993)
+#' coords_bizkaia <- c(499307.414680, 4792958.784686, 502508.961032, 4796815.771278)
 #' 
 #' # Fetch address data using the bounding box
 #' addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 25830)
@@ -63,7 +65,8 @@
 
 catreus_wfs_get_address_bbox <- function(x, srs = NULL, 
                                          verbose = FALSE, count = NULL) {
-  
+  coords2 <- NULL
+  min_count <- 500
   if (verbose == TRUE){
     message("Beginning analytics")
   }
@@ -74,9 +77,6 @@ catreus_wfs_get_address_bbox <- function(x, srs = NULL,
     coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
     if (is.null(srs)) {
       srs <- sf::st_crs(x)$epsg
-      if (srs != 25830){
-        srs <- 25830
-      }
     }
   } else if (is.numeric(x) && length(x) == 4) {
     coords <- x
@@ -104,14 +104,15 @@ catreus_wfs_get_address_bbox <- function(x, srs = NULL,
   }
   else{
     crs = 25830
-    coords <- matrix(coords, ncol = 2, byrow = TRUE)
-    sf_object <- st_as_sf(data.frame(x = coords[, 1], y = coords[, 2]), coords = c("x", "y"), crs = crs)
+    coords_prov <- matrix(coords, ncol = 2, byrow = TRUE)
+    sf_object <- st_as_sf(data.frame(x = coords_prov[, 1], y = coords_prov[, 2]), coords = c("x", "y"), crs = crs)
     transformed_sf_4326 <- st_transform(sf_object, crs = 4326)
-    coords2 <- st_coordinates(transformed_sf_4326)
-    lat1 = coords2[1, "Y"]
-    long1 = coords2[1, "X"]
-    lat2 = coords2[2, "Y"]
-    long2 = coords2[2, "X"]
+    coords_4326 <- st_coordinates(transformed_sf_4326)
+    lat1 = coords_4326[1, "Y"]
+    long1 = coords_4326[1, "X"]
+    lat2 = coords_4326[2, "Y"]
+    long2 = coords_4326[2, "X"]
+    coords2 = c(lat1,long1,lat2,long2)
   }
   
   town_data1 = tidygeocoder::reverse_geo(lat = lat1, long = long1, method = "osm", full_results = TRUE)
@@ -127,25 +128,39 @@ catreus_wfs_get_address_bbox <- function(x, srs = NULL,
   if (is.null(province1) || is.null(province2)) {
     stop("No province could be determined from the provided coordinates.")
   }
-  else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")) {
+  else if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
     print("Province of Bizkaia:")
     print("-------------------------------")
-    if (is.null(count)){
-      catreus_bizk_wfs_get_address_bbox(coords, srs, count = count)
+    if (srs != 25830){
+      srs = 25830
     }
-    else{
-      catreus_bizk_wfs_get_address_bbox(coords, srs, count = NULL)
+    if (is.null(coords2)){
+      catreus_bizk_wfs_get_address_bbox(coords, srs, count=count)
     }
-  } else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")) {
+    else {
+      catreus_bizk_wfs_get_address_bbox(coords2, srs, count=count)
+    }
+  }
+  else if ((province1 == "Gipuzkoa") & (province2 == "Gipuzkoa")){
     print("Province of Gipuzkoa:")
     print("-------------------------------")
-    if (is.null(count)){
-      count = 10
+    if (srs != 25830){
+      srs = 25830
     }
-    catreus_gipu_wfs_get_address_bbox(coords, srs, count = count)
-  } else if (province1 != province2) {
+    if (is.null(count)){
+      count <- min_count
+    }
+    if (is.null(coords2)){
+      catreus_gipu_wfs_get_address_bbox(coords, srs, count=count)
+    }
+    else {
+      catreus_gipu_wfs_get_address_bbox(coords2, srs, count=count)
+    }
+  }
+  else if (province1 != province2) {
     stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
-  } else {
+  } 
+  else {
     return(NULL)
   }
 }
