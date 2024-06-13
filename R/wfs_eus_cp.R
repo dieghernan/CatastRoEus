@@ -66,12 +66,12 @@
 #' # Define bounding box coordinates for a location in Araba
 #' 
 #' # Fetch parcel data using the bounding box
-#' vitoria <- esp_get_capimun(munic = "Vitoria") %>%
-#'   st_transform(4326) %>%
+#' # vitoria <- esp_get_capimun(munic = "Vitoria") %>%
+#'   # st_transform(4326) %>%
 #'   # Small buffer of 200 m
-#'   st_buffer(300)
+#'   # st_buffer(300)
 #'   
-#' parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
+#' # parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
 #' 
 #' }
 #'   
@@ -191,10 +191,10 @@ catreus_wfs_get_parcels_bbox <- function(x, srs = NULL,
       lat2 = coords_25830[2, "X"]
       long2 = coords_25830[2, "Y"]
       coords3 = c(lat1,long1,lat2,long2)
-      catreus_arab_wfs_get_parcels_bbox(coords3, srs, count=count)
+      catreus_arab_wfs_get_parcels_bbox(coords3, srs, count=count, verbose = verbose)
     }
     else{
-      catreus_arab_wfs_get_parcels_bbox(coords, srs, count=count)
+      catreus_arab_wfs_get_parcels_bbox(coords, srs, count=count, verbose = verbose)
     }
   }
   else if (province1 != province2) {

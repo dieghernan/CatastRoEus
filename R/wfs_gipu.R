@@ -51,10 +51,6 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
   out <- wfs_results(res, verbose)
 
   if (!is.null(out)) {
-    if (is.na(sf::st_crs(out))) {
-      # Asigna el CRS de 'bbox_res' a 'out' si no está definido
-      sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
-    }
     # Transform back to the desired srs
     out <- sf::st_transform(out, bbox_res$outcrs)
   }
@@ -123,10 +119,6 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
   out <- wfs_results(res, verbose)
 
   if (!is.null(out)) {
-    if (is.na(sf::st_crs(out))) {
-      # Asigna el CRS de 'bbox_res' a 'out' si no está definido
-      sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
-    }
     # Transform back to the desired srs
     out <- sf::st_transform(out, bbox_res$outcrs)
   }
@@ -189,10 +181,6 @@ catreus_gipu_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
   out <- wfs_results(res, verbose)
 
   if (!is.null(out)) {
-    if (is.na(sf::st_crs(out))) {
-      # Asigna el CRS de 'bbox_res' a 'out' si no está definido
-      sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
-    }
     # Transform back to the desired srs
     out <- sf::st_transform(out, bbox_res$outcrs)
   }

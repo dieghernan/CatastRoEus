@@ -61,10 +61,6 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
   out <- wfs_results(res, verbose)
 
   if (!is.null(out)) {
-    if (is.na(sf::st_crs(out))) {
-      # Asigna el CRS de 'bbox_res' a 'out' si no está definido
-      sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
-    }
     # Transform back to the desired srs
     out <- sf::st_transform(out, bbox_res$outcrs)
   }
@@ -89,8 +85,8 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #'
 #' @examples
 #' \donttest{
-#' x <- c(539032.421, 4744519.903, 539032.676, 4744522.22)
-#' cp <- catreus_arab_wfs_get_parcels_bbox(x, 25830, count=10)
+#' # x <- c(539032.421, 4744519.903, 539032.676, 4744522.22)
+#' # cp <- catreus_arab_wfs_get_parcels_bbox(x, 25830, count=10)
 #'
 #' }
 #'
@@ -101,12 +97,13 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
                                                 count = NULL) {
   # Switch to stored queries
-  stored_query <- "INSPIRE_CP:CP.CadastralParcel"
-
+  #This is for entry "WFS_INSPIRE_CP?
+  #stored_query <- "CP.CadastralParcel"
+  stored_query <- "cp:CadastralParcel"
+  
   bbox_res <- wfs_bbox(x, srs)
- 
   res <- wfs_api_query(host= "https://geo.araba.eus/",
-                       entry = "WFS_INSPIRE_CP?",
+                       entry = "WFS_INSPIRE_CP_V4?",
                        verbose = verbose,
                        # WFS service
                        version = "2.0.0",
@@ -123,9 +120,10 @@ catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
 
   if (!is.null(out)) {
     # Transform back to the desired srs
-    if (is.na(sf::st_crs(out))) {
-      sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
-    }
+    #if (is.na(sf::st_crs(out))) {
+      # Asigna el CRS de 'bbox_res' a 'out' si no está definido
+      #sf::st_crs(out) <- sf::st_crs(bbox_res$outcrs)
+    # }
     out <- sf::st_transform(out, bbox_res$outcrs)
   }
   return(out)
