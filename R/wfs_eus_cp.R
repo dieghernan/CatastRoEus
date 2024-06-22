@@ -66,12 +66,13 @@
 #' # Define bounding box coordinates for a location in Araba
 #' 
 #' # Fetch parcel data using the bounding box
-#' # vitoria <- esp_get_capimun(munic = "Vitoria") %>%
-#'   # st_transform(4326) %>%
-#'   # Small buffer of 200 m
-#'   # st_buffer(300)
+#' vitoria <- esp_get_capimun(munic = "Vitoria") %>%
+#'   st_transform(4326) %>%
+#'   Small buffer of 200 m
+#'   st_buffer(300)
 #'   
-#' # parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
+#' parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
+#' ggplot(parcels_araba) + geom_sf() + ggtitle("Parcels Data for Vitoria")
 #' 
 #' }
 #'   

@@ -54,6 +54,9 @@ catreus_bizk_atom_get_parcels_db_all <- function(cache = TRUE,
   return(tbl)
 }
 
+catreus_bizk_atom_get_parcels_db_all()
+
+
 #' ATOM INSPIRE: Download all the cadastral parcels of a municipality
 #' 
 #' @importFrom utils modifyList unzip
