@@ -1,6 +1,7 @@
 #' Retrieve Parcel Data in Pais Vasco Based on Bounding Box Coordinates
 #' 
 #' @importFrom sf st_as_sf st_transform st_coordinates st_buffer
+#' @importFrom sf st_buffer
 #' @importFrom magrittr %>%
 #'
 #' @description
@@ -65,10 +66,11 @@
 #'
 #' # Define bounding box coordinates for a location in Araba
 #' 
+#' 
 #' # Fetch parcel data using the bounding box
 #' vitoria <- esp_get_capimun(munic = "Vitoria") %>%
 #'   st_transform(4326) %>%
-#'   Small buffer of 200 m
+#'   # Small buffer of 200 m
 #'   st_buffer(300)
 #'   
 #' parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)

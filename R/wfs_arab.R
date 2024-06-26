@@ -98,8 +98,6 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
                                                 count = NULL) {
   # Switch to stored queries
-  #This is for entry "WFS_INSPIRE_CP?
-  #stored_query <- "CP.CadastralParcel"
   stored_query <- "cp:CadastralParcel"
   
   bbox_res <- wfs_bbox(x, srs)

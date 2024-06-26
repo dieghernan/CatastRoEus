@@ -41,7 +41,7 @@ catreus_bizk_atom_get_parcels_db_all <- function(cache = TRUE,
     "apps/Danok/INSPIRE/",
     "cadastralparcels.xml"
   )
-
+  
   filename <- basename(api_entry)
 
   path <- catreus_hlp_dwnload(
@@ -53,9 +53,6 @@ catreus_bizk_atom_get_parcels_db_all <- function(cache = TRUE,
   names(tbl) <- c("munic", "url", "date")
   return(tbl)
 }
-
-catreus_bizk_atom_get_parcels_db_all()
-
 
 #' ATOM INSPIRE: Download all the cadastral parcels of a municipality
 #' 
@@ -91,7 +88,6 @@ catreus_bizk_atom_get_parcels_db_all()
 #'     subtitle = "ABANTO Y CIERVANA"
 #'   )
 #' }
-
 
 catreus_bizk_atom_get_parcels <- function(munic,
                                           cache = TRUE,
