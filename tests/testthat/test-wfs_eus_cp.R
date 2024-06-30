@@ -35,7 +35,7 @@ test_that("BBOX Check projections", {
   # Convert to spatial object
   
   bbox <- get_sf_from_bbox(
-    c(504629.714699,4789184.896792, 505966.547301,4790102.230235), srs = 25830
+    c(525255.750142,4742699.503583, 527690.033671, 4744386.075341), srs = 25830
   )
   expect_s3_class(bbox, "sfc")
   
@@ -46,5 +46,19 @@ test_that("BBOX Check projections", {
   bbox2 <- sf::st_transform(obj2[1, ], 25830)
   expect_false(sf::st_is_longlat(bbox2))
   expect_s3_class(bbox2, "sf")
+  
+  obj3 <- catreus_wfs_get_parcels_bbox(bbox2)
+  
+  expect_false(sf::st_is_longlat(obj3))
+  expect_true(sf::st_crs(obj3) == sf::st_crs(25830))
+  
+  # BBox with coordinates
+  
+  vec <- as.double(sf::st_bbox(obj3[1, ]))
+  
+  obj4 <- catreus_wfs_get_parcels_bbox(vec, srs = 25830)
+  
+  expect_false(sf::st_is_longlat(obj4))
+  expect_true(sf::st_crs(obj4) == sf::st_crs(25830))
   
 })

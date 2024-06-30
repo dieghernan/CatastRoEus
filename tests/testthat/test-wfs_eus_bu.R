@@ -47,4 +47,18 @@ test_that("BBOX Check projections", {
   expect_false(sf::st_is_longlat(bbox2))
   expect_s3_class(bbox2, "sf")
   
+  obj3 <- catreus_wfs_get_buildings_bbox(bbox2)
+  
+  expect_false(sf::st_is_longlat(obj3))
+  expect_true(sf::st_crs(obj3) == sf::st_crs(25830))
+  
+  # BBox with coordinates
+  
+  vec <- as.double(sf::st_bbox(obj3[1, ]))
+  
+  obj4 <- catreus_wfs_get_buildings_bbox(vec, srs = 25830)
+  
+  expect_false(sf::st_is_longlat(obj4))
+  expect_true(sf::st_crs(obj4) == sf::st_crs(25830))
+  
 })
