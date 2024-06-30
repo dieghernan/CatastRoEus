@@ -11,8 +11,8 @@ Access public spatial data available under the 'INSPIRE' directive. Tools for do
 \seealso{
 Useful links:
 \itemize{
-  \item \url{}
-  \item Report bugs at \url{}
+  \item \url{https://github.com/rOpenSpain/CatastRoEus}
+  \item Report bugs at \url{https://github.com/rOpenSpain/CatastRoEus/issues}
 }
 
 }
