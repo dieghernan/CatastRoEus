@@ -98,7 +98,7 @@ handles geographical coordinate transformations internally if needed.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define bounding box coordinates for an urban location in Gipuzkoa</span></span></span>
-<span class="r-in"><span><span class="va">coords_gipuzkoa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">582745.070132</span>,<span class="fl">4795611.169048</span>,<span class="fl">584249.337348</span>,<span class="fl">4796830.604835</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords_gipuzkoa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">582745.070132</span>, <span class="fl">4795611.169048</span>, <span class="fl">584249.337348</span>, <span class="fl">4796830.604835</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fetch address data using the bounding box</span></span></span>
 <span class="r-in"><span><span class="va">addresses_gipuzkoa</span> <span class="op">&lt;-</span> <span class="fu">catreus_wfs_get_address_bbox</span><span class="op">(</span><span class="va">coords_gipuzkoa</span>, srs <span class="op">=</span> <span class="fl">25830</span><span class="op">)</span></span></span>
@@ -112,7 +112,8 @@ handles geographical coordinate transformations internally if needed.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Plot the buildings data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">addresses_gipuzkoa</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Addresses Data for Gipuzkoa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Addresses Data for Gipuzkoa"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="catreus_wfs_get_address_bbox-1.png" alt="" width="2188" height="1352"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define bounding box coordinates for a location in Bizkaia</span></span></span>
@@ -126,18 +127,18 @@ handles geographical coordinate transformations internally if needed.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Query completed in: 1 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Province of Bizkaia:"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "-------------------------------"</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on 'C:\Users\RUNNER~1\AppData\Local\Temp\RtmpaGdNLX/filec4f89199e.gml'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on 'C:\Users\RUNNER~1\AppData\Local\Temp\RtmpyM04Jf/file8ec405035d6.gml'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>GDAL Message 1: Field with same name (identifier) already exists in (Address). Skipping newer ones</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>GDAL Message 1: Field with same name (identifier) already exists in (Address). Skipping newer ones</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Plot the buildings data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">addresses_bizkaia</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Addresses Data for Bizkaia"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Addresses Data for Bizkaia"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="catreus_wfs_get_address_bbox-2.png" alt="" width="2188" height="1352"></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
