@@ -48,7 +48,7 @@ handles geographical coordinate transformations internally if needed.
 \donttest{
 
 # Define bounding box coordinates for an urban location in Gipuzkoa
-coords_gipuzkoa <-  c(582745.070132,4795611.169048,584249.337348,4796830.604835)
+coords_gipuzkoa <- c(582745.070132, 4795611.169048, 584249.337348, 4796830.604835)
 
 # Fetch address data using the bounding box
 addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830)
@@ -56,7 +56,8 @@ addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830)
 library(ggplot2)
 # Plot the buildings data
 ggplot(addresses_gipuzkoa) +
-  geom_sf() + ggtitle("Addresses Data for Gipuzkoa")
+  geom_sf() +
+  ggtitle("Addresses Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
 coords_bizkaia <- c(499307.414680, 4792958.784686, 502508.961032, 4796815.771278)
@@ -67,10 +68,10 @@ addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 25830)
 library(ggplot2)
 # Plot the buildings data
 ggplot(addresses_bizkaia) +
-  geom_sf() + ggtitle("Addresses Data for Bizkaia")
-
+  geom_sf() +
+  ggtitle("Addresses Data for Bizkaia")
 }
-  
+
 }
 \seealso{
 \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.

@@ -25,7 +25,7 @@
 #' @examples
 #' \donttest{
 #' x <- c(539226.596, 4744012.338, 539236.286, 4744133.782)
-#' bu <- catreus_arab_wfs_get_buildings_bbox(x,25830,count=50)
+#' bu <- catreus_arab_wfs_get_buildings_bbox(x, 25830, count = 50)
 #'
 #' library(ggplot2)
 #'
@@ -44,18 +44,19 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 
   bbox_res <- wfs_bbox(x, srs)
 
-  res <- wfs_api_query(host= "https://geo.araba.eus/",
-                       entry = "WFS_INSPIRE_BU_V4?",
-                       verbose = verbose,
-                       # WFS service
-                       version = "2.0.0",
-                       service = "WFS",
-                       request = "getfeature",
-                       typenames = stored_query,
-                       count = count,
-                       # Stored query
-                       bbox = bbox_res$bbox,
-                       srs = bbox_res$incrs
+  res <- wfs_api_query(
+    host = "https://geo.araba.eus/",
+    entry = "WFS_INSPIRE_BU_V4?",
+    verbose = verbose,
+    # WFS service
+    version = "2.0.0",
+    service = "WFS",
+    request = "getfeature",
+    typenames = stored_query,
+    count = count,
+    # Stored query
+    bbox = bbox_res$bbox,
+    srs = bbox_res$incrs
   )
 
   out <- wfs_results(res, verbose)
@@ -86,9 +87,9 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @examples
 #' \donttest{
 #' x <- c(539032.421, 4744519.903, 539032.676, 4744522.22)
-#' cp <- catreus_arab_wfs_get_parcels_bbox(x, 25830, count=10)
-#' ggplot(cp) + geom_sf()
-#'
+#' cp <- catreus_arab_wfs_get_parcels_bbox(x, 25830, count = 10)
+#' ggplot(cp) +
+#'   geom_sf()
 #' }
 #'
 #' @seealso [CatastRo::catr_wfs_get_parcels_bbox()]
@@ -96,23 +97,24 @@ catreus_arab_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @noRd
 
 catreus_arab_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
-                                                count = NULL) {
+                                              count = NULL) {
   # Switch to stored queries
   stored_query <- "cp:CadastralParcel"
-  
+
   bbox_res <- wfs_bbox(x, srs)
-  res <- wfs_api_query(host= "https://geo.araba.eus/",
-                       entry = "WFS_INSPIRE_CP_V4?",
-                       verbose = verbose,
-                       # WFS service
-                       version = "2.0.0",
-                       service = "WFS",
-                       request = "getfeature",
-                       typenames = stored_query,
-                       count = count,
-                       # Stored query
-                       bbox = bbox_res$bbox,
-                       SRS = bbox_res$incrs
+  res <- wfs_api_query(
+    host = "https://geo.araba.eus/",
+    entry = "WFS_INSPIRE_CP_V4?",
+    verbose = verbose,
+    # WFS service
+    version = "2.0.0",
+    service = "WFS",
+    request = "getfeature",
+    typenames = stored_query,
+    count = count,
+    # Stored query
+    bbox = bbox_res$bbox,
+    SRS = bbox_res$incrs
   )
   out <- wfs_results(res, verbose)
 

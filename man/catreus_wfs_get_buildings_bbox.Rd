@@ -59,27 +59,31 @@ buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 2583
 library(ggplot2)
 # Plot the buildings data
 ggplot(buildings_gipuzkoa) +
-  geom_sf() + ggtitle("Building Data for Gipuzkoa")
+  geom_sf() +
+  ggtitle("Building Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
 bilbao <- esp_get_capimun(munic = "Bilbao") \%>\%
   st_transform(25830) \%>\%
   st_buffer(300)
 buildings_bilbao <- catreus_wfs_get_buildings_bbox(bilbao)
-ggplot(buildings_bilbao) + geom_sf() + ggtitle("Buildings Data for Bilbao")
+ggplot(buildings_bilbao) +
+  geom_sf() +
+  ggtitle("Buildings Data for Bilbao")
 
 # Define bounding box coordinates for a rural location in Araba/Álava
-coords_alaba = c(525858.205755, 4742911.412803, 526701.543389, 4743398.976145)
+coords_alaba <- c(525858.205755, 4742911.412803, 526701.543389, 4743398.976145)
 
 # Fetch building data using the bounding box, requesting more features
 buildings_alaba <- catreus_wfs_get_buildings_bbox(coords_alaba, srs = 25830)
 
 library(ggplot2)
 # Plot the buildings data for Araba/Álava
-ggplot(buildings_alaba) + geom_sf() + ggtitle("Building Data for Alaba")
-
+ggplot(buildings_alaba) +
+  geom_sf() +
+  ggtitle("Building Data for Alaba")
 }
-  
+
 }
 \seealso{
 \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.

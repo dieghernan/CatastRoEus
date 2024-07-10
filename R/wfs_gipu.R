@@ -16,7 +16,7 @@
 #' \donttest{
 #'
 #' x <- c(43.026899, -2.433164, 43.308497, -2.063099)
-#' ad <- catreus_gipu_wfs_get_address_bbox(x, srs=25830,  count=10)
+#' ad <- catreus_gipu_wfs_get_address_bbox(x, srs = 25830, count = 10)
 #'
 #' library(ggplot2)
 #'
@@ -29,7 +29,7 @@
 #' @noRd
 
 catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
-                                               count = NULL) {
+                                              count = NULL) {
   # Switch to stored queries
   stored_query <- "AD:Address"
 
@@ -84,7 +84,7 @@ catreus_gipu_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #' @examples
 #' \donttest{
 #' x <- c(42.994337, -2.554863, 43.344138, -1.779831)
-#' bu <- catreus_gipu_wfs_get_parcels_bbox(x, srs=25830,  count=10)
+#' bu <- catreus_gipu_wfs_get_parcels_bbox(x, srs = 25830, count = 10)
 #'
 #' library(ggplot2)
 #'
@@ -102,18 +102,19 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
   stored_query <- "bu-ext2d:Building"
 
   bbox_res <- wfs_bbox(x, srs)
-  res <- wfs_api_query(host= "https://b5m.gipuzkoa.eus/inspire/",
-     entry = "wfs/gipuzkoa_wfs_bu?",
-     verbose = verbose,
-     # WFS service
-     version = "2.0.0",
-     service = "WFS",
-     request = "getfeature",
-     typenames = stored_query,
-     count = count,
-     # Stored query
-     bbox = bbox_res$bbox,
-     SRS = bbox_res$incrs
+  res <- wfs_api_query(
+    host = "https://b5m.gipuzkoa.eus/inspire/",
+    entry = "wfs/gipuzkoa_wfs_bu?",
+    verbose = verbose,
+    # WFS service
+    version = "2.0.0",
+    service = "WFS",
+    request = "getfeature",
+    typenames = stored_query,
+    count = count,
+    # Stored query
+    bbox = bbox_res$bbox,
+    SRS = bbox_res$incrs
   )
 
   out <- wfs_results(res, verbose)
@@ -144,7 +145,7 @@ catreus_gipu_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @examples
 #' \donttest{
 #' x <- c(43.312869, -1.929140, 43.312839, -1.929380)
-#' cp <- catreus_gipu_wfs_get_parcels_bbox(x, srs=25830,  count=10)
+#' cp <- catreus_gipu_wfs_get_parcels_bbox(x, srs = 25830, count = 10)
 #'
 #' library(ggplot2)
 #'

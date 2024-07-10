@@ -121,26 +121,31 @@ library(terra)
 library(tidyterra)
 
 # Fetching a building layer using specific bounding box coordinates (Araba)
-pic_bu <- catreus_wms_get_layer(c(-298730.238481,5288011.551711,-296360.690604,5289922.477418), 
-                                  srs = 3857, what = "building", id = "layer_eus_1")
-                                  
+pic_bu <- catreus_wms_get_layer(c(-298730.238481, 5288011.551711, -296360.690604, 5289922.477418),
+  srs = 3857, what = "building", id = "layer_eus_1"
+)
+
 # Displaying the fetched raster image
-ggplot() + geom_spatraster_rgb(data = pic_bu)
+ggplot() +
+  geom_spatraster_rgb(data = pic_bu)
 
 # Fetching an address layer using specific bounding box coordinates (Gipuzkoa)
-pic_ad <- catreus_wms_get_layer(c(-221868.029226,5358914.061417,-220750.137688,5360872.760267), 
-                              srs= 3857, what = "address", id = "layer_eus_2")
-                              
+pic_ad <- catreus_wms_get_layer(c(-221868.029226, 5358914.061417, -220750.137688, 5360872.760267),
+  srs = 3857, what = "address", id = "layer_eus_2"
+)
+
 # Displaying the fetched raster image
-ggplot() + geom_spatraster_rgb(data = pic_ad)
+ggplot() +
+  geom_spatraster_rgb(data = pic_ad)
 
 # Fetching a zoning layer using specific bounding box coordinates (Bizkaia)
-pic_zo <- catreus_wms_get_layer(c(-339724.372213,5356554.068169,-333915.158064,5361598.912035), 
-                          srs= 3857, what = "zoning", id = "layer_eus_3")
-                          
-# Displaying the fetched raster image
-ggplot() + geom_spatraster_rgb(data = pic_zo)
+pic_zo <- catreus_wms_get_layer(c(-339724.372213, 5356554.068169, -333915.158064, 5361598.912035),
+  srs = 3857, what = "zoning", id = "layer_eus_3"
+)
 
+# Displaying the fetched raster image
+ggplot() +
+  geom_spatraster_rgb(data = pic_zo)
 }
 
 }

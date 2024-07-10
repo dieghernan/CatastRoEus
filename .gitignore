@@ -48,3 +48,12 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 inst/doc
+.Rproj.user
+.Rdata
+CatastRoEus.Rcheck/
+CatastRoEus*.tar.gz
+CatastRoEus*.tgz
+CRAN-SUBMISSION
+cran-comments.md
+.github/pkg.lock
+Rplots.pdf

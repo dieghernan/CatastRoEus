@@ -1,8 +1,8 @@
 catreus_read_atom <- function(file, encoding = "UTF-8") {
   feed <- try(
     xml2::as_list(xml2::read_xml(file,
-                                 options = "NOCDATA",
-                                 encoding = encoding
+      options = "NOCDATA",
+      encoding = encoding
     )),
     silent = TRUE
   )
@@ -10,7 +10,7 @@ catreus_read_atom <- function(file, encoding = "UTF-8") {
   # On error try without encoding
   if (inherits(feed, "try-error")) {
     feed <- xml2::as_list(xml2::read_xml(file,
-                                         options = "NOCDATA"
+      options = "NOCDATA"
     ))
   }
 
