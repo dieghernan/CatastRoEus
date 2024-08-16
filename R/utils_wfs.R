@@ -118,7 +118,7 @@ wfs_results <- function(res, verbose) {
     unlink(res$path, force = TRUE)
     return(out)
   } else {
-    message("Malformed query: ", res$m)
+    message("Malformed query: Something in the URL API is not correct. The URL you are trying to access doesn't exist ", res$m)
     unlink(res$path, force = TRUE)
     return(invisible(NULL))
   }

@@ -90,7 +90,7 @@
 catreus_bizk_wms_get_layer <- function(x,
                                srs,
                                what = c("parcel", "zoning", "address", "admunit"),
-                               styles = "default",
+                               styles = "NULL",
                                id,
                                update_cache = FALSE,
                                cache_dir = NULL,

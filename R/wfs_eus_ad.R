@@ -44,7 +44,7 @@
 #' addresses_gipuzkoa <- catreus_wfs_get_address_bbox(coords_gipuzkoa, srs = 25830)
 #' 
 #' library(ggplot2)
-#' # Plot the buildings data
+#' # Plot the addresses data
 #' ggplot(addresses_gipuzkoa) +
 #'   geom_sf() + ggtitle("Addresses Data for Gipuzkoa")
 #'
@@ -55,7 +55,7 @@
 #' addresses_bizkaia <- catreus_wfs_get_address_bbox(coords_bizkaia, srs = 25830)
 #' 
 #' library(ggplot2)
-#' # Plot the buildings data
+#' # Plot the addresses data
 #' ggplot(addresses_bizkaia) +
 #'   geom_sf() + ggtitle("Addresses Data for Bizkaia")
 #' 
@@ -161,6 +161,7 @@ catreus_wfs_get_address_bbox <- function(x, srs = NULL,
     stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
   } 
   else {
-    return(NULL)
+    stop("This coordinates doesn´t take regions on the Basque Country. 
+            Change them for ones inside the Basque Country Region")
   }
 }

@@ -16,11 +16,11 @@
 #'   - An `sf/sfc` object from the \CRANpkg{sf} package.
 #' @param srs Spatial Reference System (SRS) or Coordinate Reference System (CRS) code 
 #'   to be used in the query. For best results, ensure the coordinates are in ETRS89
-#'   (EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.
+#'   (EPSG:25830).
 #' @param verbose Logical; if `TRUE`, additional information about function operations 
 #'   is printed. Useful for debugging. Default is `FALSE`.
 #' @param count Integer specifying the maximum number of building records to return.
-#'   Default is 10.
+#'   Default is NULL.
 #'
 #' @return Depending on the input and geographic location, this function may return:
 #'   - An `sf` object containing building data within the specified bbox.
@@ -42,10 +42,10 @@
 #' library(sf)
 #' 
 #' # Define bounding box coordinates for a location in Gipuzkoa
-#' coords_gipuzkoa <- c(580335.961264, 4795197.149650, 581482.214894, 4795985.065492)
+#' coords_gipuzkoa <- c(582181.399767, 4796308.387948, 583411.968522, 4797564.942348)
 #'
 #' # Fetch building data using the bounding box
-#' buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 25830, count = 10)
+#' buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 25830, count = 50)
 #'
 #' library(ggplot2)
 #' # Plot the buildings data
@@ -67,7 +67,7 @@
 #' 
 #' library(ggplot2)
 #' # Plot the buildings data for Araba/Álava
-#' ggplot(buildings_alaba) + geom_sf() + ggtitle("Building Data for Alaba")
+#' ggplot(buildings_alaba) + geom_sf() + ggtitle("Building Data for Araba")
 #' 
 #' }
 #'   
@@ -197,6 +197,7 @@ catreus_wfs_get_buildings_bbox <- function(x, srs = NULL,
     stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
   } 
   else {
-    return(NULL)
+    stop("This coordinates doesn´t take regions on the Basque Country. 
+            Change them for ones inside the Basque Country Region")
   }
 }

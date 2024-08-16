@@ -64,13 +64,11 @@
 #' ggplot(parcels_bizkaia) +
 #'   geom_sf() + ggtitle("Parcels Data for Bizkaia")
 #'
-#' # Define bounding box coordinates for a location in Araba
 #' 
 #' 
 #' # Fetch parcel data using the bounding box
 #' vitoria <- esp_get_capimun(munic = "Vitoria") %>%
 #'   st_transform(4326) %>%
-#'   # Small buffer of 200 m
 #'   st_buffer(300)
 #'   
 #' parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
@@ -204,6 +202,7 @@ catreus_wfs_get_parcels_bbox <- function(x, srs = NULL,
     stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
   } 
   else {
-    return(NULL)
+    stop("This coordinates doesn´t take regions on the Basque Country. 
+            Change them for ones inside the Basque Country Region")
   }
 }

@@ -166,6 +166,9 @@ catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "ad
   province2<- town_data2$province
   
   if ((province1 == "Bizkaia") & (province2 == "Bizkaia")){
+    if (!what %in% c("parcel", "admunit", "zoning", "address")) {
+      stop("The value of 'what' is not valid for Bizkaia. Change it for 'parcel', 'admunit', 'zoning' or 'address'")
+    }
     print("Coordinates of Bizkaia:")
     print(what)
     if (is.null(styles)){
@@ -182,14 +185,17 @@ catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "ad
     catreus_gipu_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if ((province1 == "Araba/\u00C1lava") & (province2 == "Araba/\u00C1lava")){
+    if (!what %in% c("parcel", "admunit", "admbound", "building")) {
+      stop("The value of 'what' is not valid for Araba. Change it for 'parcel', 'admunit', 'admbound' or 'building'")
+    }
     print("Coordinates of Araba/\u00C1lava:")
     print(what)
     catreus_arab_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if (province1 != province2){
-    print("This coordinates englobe 2 different province, please select coordinates for 1 province")
+    stop("This coordinates englobe 2 different province. Please select coordinates for 1 province")
   }
   else {
-    print("This coordinates aren't from Pais Vasco")
+    stop("This coordinates aren't from the Basque Country. Please change the bbox")
   }
 }
