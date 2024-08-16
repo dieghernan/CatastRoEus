@@ -125,13 +125,13 @@ catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "ad
     what <- what[1]
   }
   
-  # Validar que el valor de `what` esté dentro de los permitidos
+  # Validate that the value of `what` is within the allowed values.
   if (!what %in% c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother")) {
     stop("The value of 'what' is not valid.")
   }
   
   if (inherits(x, "sf") || inherits(x, "sfc")) {
-    # Convertir el objeto sf a bbox
+    # Convert the object into bbox
     bbox <- sf::st_bbox(x)
     coords <- c(bbox$xmin, bbox$ymin, bbox$xmax, bbox$ymax)
     if (is.null(srs)) {
