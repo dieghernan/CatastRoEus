@@ -198,9 +198,9 @@ catreus_wfs_get_parcels_bbox <- function(x, srs = NULL,
       catreus_arab_wfs_get_parcels_bbox(coords, srs, count=count, verbose = verbose)
     }
   }
-  else if (province1 != province2) {
-    stop("This coordinates englobe 2 differente province, please select coordinates for 1 province")
-  } 
+  else if (province1 != province2){
+    stop("This coordinates englobe 2 different province. ", province1 ," and ", province2,". Please select coordinates from 1 province.")
+  }
   else {
     stop("This coordinates doesn´t take regions on the Basque Country. 
             Change them for ones inside the Basque Country Region")

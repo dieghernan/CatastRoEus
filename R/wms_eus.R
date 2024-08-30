@@ -118,6 +118,8 @@
 #'
 #' @export
 
+catreus_wms_get_layer(c(553924.532184,4743675.057844,565911.114719,4757631.679222), srs= 3857, what = "zoning", id = "layer_eus_22")
+
 catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother"),
                                   id = "change_id", styles = NULL, verbose = FALSE, crop = FALSE, options = list()){
   
@@ -193,7 +195,7 @@ catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "ad
     catreus_arab_wms_get_layer(coords, srs, what = what, styles = styles, id = id, crop = crop, options = options)
   }
   else if (province1 != province2){
-    stop("This coordinates englobe 2 different province. Please select coordinates for 1 province")
+    stop("This coordinates englobe 2 different province. ", province1 ," and ", province2,". Please select coordinates from 1 province.")
   }
   else {
     stop("This coordinates aren't from the Basque Country. Please change the bbox")
