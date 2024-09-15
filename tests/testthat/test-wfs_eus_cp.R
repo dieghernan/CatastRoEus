@@ -9,7 +9,7 @@ test_that("BBOX Check errors", {
 test_that("BBOX Check projections", {
   skip_on_cran()
   
-  expect_null(catreus_wfs_get_parcels_bbox(c(42.331139, -3.721619, 42.346365, -3.685913),
+  expect_error(catreus_wfs_get_parcels_bbox(c(42.331139, -3.721619, 42.346365, -3.685913),
                                              srs = 25829, count = 10
   ))
   

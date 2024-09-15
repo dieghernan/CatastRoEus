@@ -118,8 +118,6 @@
 #'
 #' @export
 
-catreus_wms_get_layer(c(553924.532184,4743675.057844,565911.114719,4757631.679222), srs= 3857, what = "zoning", id = "layer_eus_22")
-
 catreus_wms_get_layer <- function(x, srs=NULL, what = c("parcel", "admunit", "admbound", "building", "zoning", "address", "buother"),
                                   id = "change_id", styles = NULL, verbose = FALSE, crop = FALSE, options = list()){
   
