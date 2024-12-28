@@ -10,14 +10,14 @@
 #' @noRd
 
 
-wfs_get_url <- function(host,entry,params){
-  #Clean empty params
+wfs_get_url <- function(host, entry, params) {
+  # Clean empty params
   params <- params[length(params) != 0]
 
-  #Create query string
+  # Create query string
   query <- paste0(names(params), "=", params, collapse = "&")
 
-  #Create full url
+  # Create full url
   url <- paste0(host, entry, query)
   return(url)
 }
@@ -30,10 +30,10 @@ wfs_get_url <- function(host,entry,params){
 #' @noRd
 
 
-wfs_check <- function(path){
-  #Check if it contains gml
-  lines <- suppressWarnings(readLines(path,n=20))
-  if (any(grepl("<gml", lines))){
+wfs_check <- function(path) {
+  # Check if it contains gml
+  lines <- suppressWarnings(readLines(path, n = 20))
+  if (any(grepl("<gml", lines))) {
     return(TRUE)
   } else {
     return(FALSE)
@@ -67,7 +67,8 @@ wfs_api_query <- function(host, entry, ..., verbose = TRUE) {
 
   # Prepare URL
   # Get URl
-  api_entry <- wfs_get_url(host = host,
+  api_entry <- wfs_get_url(
+    host = host,
     entry = entry,
     params = arguments
   )

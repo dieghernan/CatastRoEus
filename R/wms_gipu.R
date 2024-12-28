@@ -1,5 +1,5 @@
 #' WMS INSPIRE: Download map images from the Gipuzkoa region
-#' 
+#'
 #' @importFrom utils modifyList unzip
 #' @importFrom sf st_polygon st_sfc st_sf st_crs<-
 #'
@@ -29,7 +29,7 @@
 #' @family spatial data layers from Gipuzkoa
 #'
 #' @seealso
-#' [mapSpain::esp_getTiles()], [mapSpain::esp_make_provider()], [terra::RGB()]. 
+#' [mapSpain::esp_getTiles()], [mapSpain::esp_make_provider()], [terra::RGB()].
 #' For advanced plotting, see [terra::plotRGB()] and [tidyterra::geom_spatraster_rgb()].
 #'
 #' @details
@@ -57,67 +57,83 @@
 #'
 #' @examples
 #' \donttest{
-#' 
+#'
 #' library(mapSpain)
 #' library(ggplot2)
 #' library(terra)
-#' 
+#'
 #' # Retrieving a parcel layer using specific bounding box coordinates
-#' pic_pa = catreus_gipu_wms_get_layer(c(-220929.286973,5360633.894553,-220654.591402,5361039.966266), 
-#'                               srs= 3857, what = "parcel", id = "layer_pa_1")
-#'                               
+#' pic_pa <- catreus_gipu_wms_get_layer(c(-220929.286973, 5360633.894553, -220654.591402, 5361039.966266),
+#'   srs = 3857, what = "parcel", id = "layer_pa_1"
+#' )
+#'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_pa)
-#' 
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_pa)
+#'
 #' # Retrieving a zoning layer using specific bounding box coordinates
-#' pic_zo = catreus_gipu_wms_get_layer(c(-220929.286973,5360633.894553,-220654.591402,5361039.966266), 
-#'                               srs= 3857, what = "zoning", id = "layer_zo_1")
+#' pic_zo <- catreus_gipu_wms_get_layer(c(-220929.286973, 5360633.894553, -220654.591402, 5361039.966266),
+#'   srs = 3857, what = "zoning", id = "layer_zo_1"
+#' )
 #'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_zo)
-#' 
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_zo)
+#'
 #' # Retrieving an address layer using specific bounding box coordinates
-#' pic_ad = catreus_gipu_wms_get_layer(c(-221868.029226,5358914.061417,-220750.137688,5360872.760267), 
-#'                               srs= 3857, what = "address", id = "layer_ad_1")
-
+#' pic_ad <- catreus_gipu_wms_get_layer(c(-221868.029226, 5358914.061417, -220750.137688, 5360872.760267),
+#'   srs = 3857, what = "address", id = "layer_ad_1"
+#' )
+#'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_ad)
-#' 
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_ad)
+#'
 #' # Retrieving an administrative unit layer using specific bounding box coordinates
-#' pic_au <- catreus_gipu_wms_get_layer(c(-222756.191383,5358616.194743,-219211.842493,5361751.786092), 
-#'                                      srs = 3857, what = "admunit", id = "layer_au_1")
+#' pic_au <- catreus_gipu_wms_get_layer(c(-222756.191383, 5358616.194743, -219211.842493, 5361751.786092),
+#'   srs = 3857, what = "admunit", id = "layer_au_1"
+#' )
 #'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_au)
-#' 
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_au)
+#'
 #' # Retrieving an administrative boundary layer using specific bounding box coordinates
-#' pic_ab <- catreus_gipu_wms_get_layer(c(-222756.191383,5358616.194743,-219211.842493,5361751.786092), 
-#'                                      srs = 3857, what = "admbound", id = "layer_ab_1")
+#' pic_ab <- catreus_gipu_wms_get_layer(c(-222756.191383, 5358616.194743, -219211.842493, 5361751.786092),
+#'   srs = 3857, what = "admbound", id = "layer_ab_1"
+#' )
 #'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_ab)
-#' 
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_ab)
+#'
 #' # Retrieving a building layer using specific bounding box coordinates
-#' pic_bu <- catreus_gipu_wms_get_layer(c(-221868.029226,5358914.061417,-220750.137688,5360872.760267), 
-#'                                      srs = 3857, what = "building", id = "layer_bu_1")
+#' pic_bu <- catreus_gipu_wms_get_layer(c(-221868.029226, 5358914.061417, -220750.137688, 5360872.760267),
+#'   srs = 3857, what = "building", id = "layer_bu_1"
+#' )
 #'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_bu)
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_bu)
 #'
 #' # Retrieving a other building layer using specific bounding box coordinates
-#' pic_buo <- catreus_gipu_wms_get_layer(c(-220922.121001,5357394.875480,-220272.406261,5358111.472620), 
-#'                                      srs = 3857, what = "buother", id = "layer_buo_1")
+#' pic_buo <- catreus_gipu_wms_get_layer(c(-220922.121001, 5357394.875480, -220272.406261, 5358111.472620),
+#'   srs = 3857, what = "buother", id = "layer_buo_1"
+#' )
 #'
 #' # Displaying the fetched raster image
-#' ggplot() + geom_spatraster_rgb(data = pic_buo)
+#' ggplot() +
+#'   geom_spatraster_rgb(data = pic_buo)
 #' }
 #'
 #' @noRd
 
 catreus_gipu_wms_get_layer <- function(x,
                                        srs,
-                                       what = c("parcel", "zoning", "address", 
-                                                "admunit", "admbound", "building", "buother"),
+                                       what = c(
+                                         "parcel", "zoning", "address",
+                                         "admunit", "admbound", "building", "buother"
+                                       ),
                                        styles = "NULL",
                                        id,
                                        update_cache = FALSE,
@@ -130,13 +146,15 @@ catreus_gipu_wms_get_layer <- function(x,
   ymin <- x[2]
   xmax <- x[3]
   ymax <- x[4]
-  
+
   coords <- matrix(
-    c(xmin, ymin,  # bottom-left
-      xmax, ymin,  # bottom-right
-      xmax, ymax,  # top-right
-      xmin, ymax,  # top-left
-      xmin, ymin), # close polygon (repeat the first point)
+    c(
+      xmin, ymin, # bottom-left
+      xmax, ymin, # bottom-right
+      xmax, ymax, # top-right
+      xmin, ymax, # top-left
+      xmin, ymin
+    ), # close polygon (repeat the first point)
     ncol = 2, byrow = TRUE
   )
   bbox_res <- get_sf_from_bbox(x, srs)
@@ -145,27 +163,27 @@ catreus_gipu_wms_get_layer <- function(x,
   sf_object <- st_sf(geometry = sfc)
   st_crs(sf_object) <- 3857
   cache_dir <- catreus_hlp_cachedir(cache_dir)
-  
+
   # Manage layer
   what <- match.arg(what)
-  
+
   layer <- switch(what,
-                  "parcel" = "cp.CadastralParcel",
-                  "zoning" = "cp.CadastralZoning",
-                  "address" = "ad.Address",
-                  "admunit" = "au.AdministrativeUnit",
-                  "admbound" = "au.AdministrativeBoundary",
-                  "building" = "bu.building",
-                  "buother" = "bu.otherconstruction"
+    "parcel" = "cp.CadastralParcel",
+    "zoning" = "cp.CadastralZoning",
+    "address" = "ad.Address",
+    "admunit" = "au.AdministrativeUnit",
+    "admbound" = "au.AdministrativeBoundary",
+    "building" = "bu.building",
+    "buother" = "bu.otherconstruction"
   )
-  
+
   # Manage styles and options
   # Custom options
   opts <- list(
     styles = styles,
     version = "1.3.0"
   )
-  
+
   # Add srs
   if (!missing(srs)) {
     if (!any(grepl("epsg", srs, ignore.case = TRUE))) {
@@ -175,7 +193,7 @@ catreus_gipu_wms_get_layer <- function(x,
       )
     }
   }
-  
+
   # Add to options
   if (is.null(options)) {
     finalopts <- opts
@@ -186,32 +204,34 @@ catreus_gipu_wms_get_layer <- function(x,
       options
     )
   }
-  
+
   # Check if need to change crs
   if (finalopts$version >= "1.3.0") {
     newnames <- gsub("srs", "crs", names(finalopts))
     names(finalopts) <- newnames
   }
-  
+
   # Query
-  custom_wms <- mapSpain::esp_make_provider(id = id,
-                                            q = "https://b5m.gipuzkoa.eus/inspire/wms/gipuzkoa_wms?",
-                                            request="GetMap",
-                                            service = "WMS",
-                                            version = "1.3.0",
-                                            format = "image/png",
-                                            layers = layer,
-                                            crs="EPSG:3857",
-                                            bbox=x,
-                                            styles = styles,
-                                            width="512",
-                                            height="512")
-  
+  custom_wms <- mapSpain::esp_make_provider(
+    id = id,
+    q = "https://b5m.gipuzkoa.eus/inspire/wms/gipuzkoa_wms?",
+    request = "GetMap",
+    service = "WMS",
+    version = "1.3.0",
+    format = "image/png",
+    layers = layer,
+    crs = "EPSG:3857",
+    bbox = x,
+    styles = styles,
+    width = "512",
+    height = "512"
+  )
+
   out <- getTiles_eus(sf_object, custom_wms)
-  
+
   if (crop) {
     out <- terra::crop(out, bbox_res)
   }
-  
+
   return(out)
 }

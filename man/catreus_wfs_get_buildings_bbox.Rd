@@ -16,13 +16,13 @@ catreus_wfs_get_buildings_bbox(x, srs = NULL, verbose = FALSE, count = NULL)
 
 \item{srs}{Spatial Reference System (SRS) or Coordinate Reference System (CRS) code
 to be used in the query. For best results, ensure the coordinates are in ETRS89
-(EPSG:25830) or WGS84 (EPSG:4326) when using latitude and longitude.}
+(EPSG:25830).}
 
 \item{verbose}{Logical; if \code{TRUE}, additional information about function operations
 is printed. Useful for debugging. Default is \code{FALSE}.}
 
 \item{count}{Integer specifying the maximum number of building records to return.
-Default is 10.}
+Default is NULL.}
 }
 \value{
 Depending on the input and geographic location, this function may return:
@@ -51,35 +51,39 @@ library(dplyr)
 library(sf)
 
 # Define bounding box coordinates for a location in Gipuzkoa
-coords_gipuzkoa <- c(580335.961264, 4795197.149650, 581482.214894, 4795985.065492)
+coords_gipuzkoa <- c(582181.399767, 4796308.387948, 583411.968522, 4797564.942348)
 
 # Fetch building data using the bounding box
-buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 25830, count = 10)
+buildings_gipuzkoa <- catreus_wfs_get_buildings_bbox(coords_gipuzkoa, srs = 25830, count = 50)
 
 library(ggplot2)
 # Plot the buildings data
 ggplot(buildings_gipuzkoa) +
-  geom_sf() + ggtitle("Building Data for Gipuzkoa")
+  geom_sf() +
+  ggtitle("Building Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
 bilbao <- esp_get_capimun(munic = "Bilbao") \%>\%
   st_transform(25830) \%>\%
   st_buffer(300)
 buildings_bilbao <- catreus_wfs_get_buildings_bbox(bilbao)
-ggplot(buildings_bilbao) + geom_sf() + ggtitle("Buildings Data for Bilbao")
+ggplot(buildings_bilbao) +
+  geom_sf() +
+  ggtitle("Buildings Data for Bilbao")
 
 # Define bounding box coordinates for a rural location in Araba/Álava
-coords_alaba = c(525858.205755, 4742911.412803, 526701.543389, 4743398.976145)
+coords_alaba <- c(525858.205755, 4742911.412803, 526701.543389, 4743398.976145)
 
 # Fetch building data using the bounding box, requesting more features
 buildings_alaba <- catreus_wfs_get_buildings_bbox(coords_alaba, srs = 25830)
 
 library(ggplot2)
 # Plot the buildings data for Araba/Álava
-ggplot(buildings_alaba) + geom_sf() + ggtitle("Building Data for Alaba")
-
+ggplot(buildings_alaba) +
+  geom_sf() +
+  ggtitle("Building Data for Araba")
 }
-  
+
 }
 \seealso{
 \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.

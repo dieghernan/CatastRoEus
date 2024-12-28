@@ -31,11 +31,10 @@
 #' \donttest{
 #' catreus_bizk_atom_get_buildings_db_all()
 #' }
-
 catreus_bizk_atom_get_buildings_db_all <- function(cache = TRUE,
-                                                 update_cache = FALSE,
-                                                 cache_dir = NULL,
-                                                 verbose = FALSE) {
+                                                   update_cache = FALSE,
+                                                   cache_dir = NULL,
+                                                   verbose = FALSE) {
   api_entry <- paste0(
     "https://apli.bizkaia.eus/",
     "apps/Danok/INSPIRE/",
@@ -89,10 +88,10 @@ catreus_bizk_atom_get_buildings_db_all <- function(cache = TRUE,
 #'   )
 #' }
 catreus_bizk_atom_get_buildings <- function(munic,
-                                          cache = TRUE,
-                                          update_cache = FALSE,
-                                          cache_dir = NULL,
-                                          verbose = FALSE) {
+                                            cache = TRUE,
+                                            update_cache = FALSE,
+                                            cache_dir = NULL,
+                                            verbose = FALSE) {
   all <- catreus_bizk_atom_get_buildings_db_all(
     cache = cache,
     update_cache = update_cache,
@@ -144,9 +143,9 @@ catreus_bizk_atom_get_buildings <- function(munic,
   # Guess what to read
   files <- list.files(exdir, full.names = TRUE, pattern = ".gml$")
   if (length(files) > 1) {
-    files = (files[2])
+    files <- (files[2])
   } else {
-    files = files
+    files <- files
   }
 
   sfobj <- st_read_layers_encoding(files, verbose)

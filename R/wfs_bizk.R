@@ -29,7 +29,7 @@
 #' @noRd
 
 catreus_bizk_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
-                                         count = NULL) {
+                                              count = NULL) {
   # Switch to stored queries
   stored_query <- "ad:Address"
 
@@ -48,7 +48,7 @@ catreus_bizk_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
     bbox = bbox_res$bbox,
     SRS = bbox_res$incrs
   )
-  
+
   out <- wfs_results(res, verbose)
 
   if (!is.null(out)) {
@@ -85,8 +85,8 @@ catreus_bizk_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #' @examples
 #' \donttest{
 #' x <- c(43.312, -2.994, 43.313, -2.993)
-
-#' bu <- catreus_bizk_wfs_get_buildings_bbox(x,25830)
+#'
+#' bu <- catreus_bizk_wfs_get_buildings_bbox(x, 25830)
 #'
 #' library(ggplot2)
 #'
@@ -99,13 +99,14 @@ catreus_bizk_wfs_get_address_bbox <- function(x, srs, verbose = FALSE,
 #' @noRd
 
 catreus_bizk_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
-                                           count = NULL) {
+                                                count = NULL) {
   # Switch to stored queries
   stored_query <- "bu-core2d:Building"
 
   bbox_res <- wfs_bbox(x, srs)
 
-  res <- wfs_api_query(host= "https://geo.bizkaia.eus/arcgisserverinspire/rest/services/",
+  res <- wfs_api_query(
+    host = "https://geo.bizkaia.eus/arcgisserverinspire/rest/services/",
     entry = "Catastro/Buildings/MapServer/exts/InspireFeatureDownload/service?",
     verbose = verbose,
     # WFS service
@@ -162,7 +163,7 @@ catreus_bizk_wfs_get_buildings_bbox <- function(x, srs, verbose = FALSE,
 #' @noRd
 
 catreus_bizk_wfs_get_parcels_bbox <- function(x, srs, verbose = FALSE,
-                                         count = NULL) {
+                                              count = NULL) {
   # Switch to stored queries
   stored_query <- "cp:CadastralParcel"
 

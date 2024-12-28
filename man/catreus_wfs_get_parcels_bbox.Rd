@@ -52,7 +52,7 @@ library(dplyr)
 library(sf)
 
 # Define bounding box coordinates for an urban location in Gipuzkoa
-coords_gipuzkoa <- c(582745.070132,4795611.169048,584249.337348,4796830.604835)
+coords_gipuzkoa <- c(582745.070132, 4795611.169048, 584249.337348, 4796830.604835)
 
 # Fetch parcel data using the bounding box
 parcels_gipuzkoa <- catreus_wfs_get_parcels_bbox(coords_gipuzkoa, srs = 25830)
@@ -60,7 +60,8 @@ parcels_gipuzkoa <- catreus_wfs_get_parcels_bbox(coords_gipuzkoa, srs = 25830)
 library(ggplot2)
 # Plot the parcels data
 ggplot(parcels_gipuzkoa) +
-  geom_sf() + ggtitle("Parcels Data for Gipuzkoa")
+  geom_sf() +
+  ggtitle("Parcels Data for Gipuzkoa")
 
 # Define bounding box coordinates for a location in Bizkaia
 coords_bizkaia <- c(504218.816311, 4788948.595082, 505374.746026, 4789719.963173)
@@ -71,22 +72,22 @@ parcels_bizkaia <- catreus_wfs_get_parcels_bbox(coords_bizkaia, srs = 25830)
 library(ggplot2)
 # Plot the parcels data for Bizkaia
 ggplot(parcels_bizkaia) +
-  geom_sf() + ggtitle("Parcels Data for Bizkaia")
+  geom_sf() +
+  ggtitle("Parcels Data for Bizkaia")
 
-# Define bounding box coordinates for a location in Araba
 
 
 # Fetch parcel data using the bounding box
 vitoria <- esp_get_capimun(munic = "Vitoria") \%>\%
   st_transform(4326) \%>\%
-  # Small buffer of 200 m
   st_buffer(300)
-  
-parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
-ggplot(parcels_araba) + geom_sf() + ggtitle("Parcels Data for Vitoria")
 
+parcels_araba <- catreus_wfs_get_parcels_bbox(vitoria)
+ggplot(parcels_araba) +
+  geom_sf() +
+  ggtitle("Parcels Data for Vitoria")
 }
-  
+
 }
 \seealso{
 \code{\link[sf:st_bbox]{st_bbox}}, which is used to manage spatial bounding boxes.

@@ -10,19 +10,19 @@
 st_read_layers_encoding <- function(path, verbose) {
   # Layer management and errors
   layers <- tryCatch(sf::st_layers(path),
-                     warning = function(e) {
-                       return(NULL)
-                     },
-                     error = function(e) {
-                       return(NULL)
-                     }
+    warning = function(e) {
+      return(NULL)
+    },
+    error = function(e) {
+      return(NULL)
+    }
   )
 
   # If NULL change to a new tempfile and retry
   # This may be an error on encoding
   if (is.null(layers)) {
     newlines <- readLines(path,
-                          encoding = "ISO-8859-1"
+      encoding = "ISO-8859-1"
     )
 
     newlines <- stringi::stri_trans_general(newlines, "latin-ascii")
@@ -54,8 +54,8 @@ st_read_layers_encoding <- function(path, verbose) {
 
   out <- try(
     sf::st_read(path,
-                layer = df_layers$layer[1],
-                quiet = !verbose
+      layer = df_layers$layer[1],
+      quiet = !verbose
     ),
     silent = TRUE
   )

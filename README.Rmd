@@ -1,5 +1,17 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # CatastRoEus
 
@@ -9,13 +21,13 @@
 
 <!-- badges: end -->
 
-The goal of CatastRoEus is to …
+The goal of CatastRoEus is to ...
 
 ## Installation
 
 You can install the development version of CatastRoEus like so:
 
-``` r
+```{r install, eval = FALSE}
 # Install 'CatastRoEus' in R:
 install.packages("CatastRoEus",
   repos = c("https://ropenspain.r-universe.dev", "https://cloud.r-project.org")

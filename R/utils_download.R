@@ -1,5 +1,5 @@
 catreus_hlp_dwnload <- function(api_entry, filename, cache_dir,
-                             verbose, update_cache, cache) {
+                                verbose, update_cache, cache) {
   # Use secure http
   api_entry <- gsub("^http:", "https:", api_entry)
 
@@ -46,13 +46,14 @@ catreus_hlp_dwnload <- function(api_entry, filename, cache_dir,
   # Downloading
   if (dwnload) {
     err_dwnload <- try(
-      #download.file(url, filepath,
+      # download.file(url, filepath,
       #              quiet = isFALSE(verbose),
       #              mode = "wb"
-      #)
+      # )
       curl::curl_download(url, filepath,
-                          quiet = TRUE,
-                          mode = "wb"),
+        quiet = TRUE,
+        mode = "wb"
+      ),
       silent = TRUE
     )
 
@@ -61,13 +62,14 @@ catreus_hlp_dwnload <- function(api_entry, filename, cache_dir,
     if (inherits(err_dwnload, "try-error")) {
       if (verbose) message("Retrying query")
       err_dwnload <- try(
-        #download.file(url, filepath,
+        # download.file(url, filepath,
         #              quiet = isFALSE(verbose),
         #              mode = "wb"
-        #)
+        # )
         curl::curl_download(url, filepath,
-                            quiet = TRUE,
-                            mode = "wb"),
+          quiet = TRUE,
+          mode = "wb"
+        ),
         silent = TRUE
       )
     }

@@ -31,7 +31,6 @@
 #' \donttest{
 #' catreus_bizk_atom_get_addresses_db_all()
 #' }
-
 catreus_bizk_atom_get_addresses_db_all <- function(cache = TRUE,
                                                    update_cache = FALSE,
                                                    cache_dir = NULL,
@@ -55,7 +54,7 @@ catreus_bizk_atom_get_addresses_db_all <- function(cache = TRUE,
 }
 
 #' ATOM INSPIRE: Download all the addresses of a municipality in Bizkaia
-#' 
+#'
 #' @importFrom utils modifyList unzip
 #'
 #' @description
@@ -88,7 +87,6 @@ catreus_bizk_atom_get_addresses_db_all <- function(cache = TRUE,
 #'     subtitle = "ABADIÑO"
 #'   )
 #' }
-
 catreus_bizk_atom_get_addresses <- function(munic,
                                             cache = TRUE,
                                             update_cache = FALSE,
@@ -145,9 +143,9 @@ catreus_bizk_atom_get_addresses <- function(munic,
   # Guess what to read
   files <- list.files(exdir, full.names = TRUE, pattern = ".gml$")
   if (length(files) > 1) {
-    files = (files[1])
+    files <- (files[1])
   } else {
-    files = files
+    files <- files
   }
 
   sfobj <- st_read_layers_encoding(files, verbose)
